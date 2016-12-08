@@ -15,13 +15,13 @@ module.exports = {
     .query('SELECT * FROM salesforce.ablb_fisher_trip__c WHERE lastmodifieddate > current_timestamp - interval \'1 day\'')
     .on('end', function(result) {
       if (result.rowCount > 0){
-        console.log(result.rowCount + " Records Received - Passed\r\n");
-        LogString += result.rowCount + " Records Received - Test Passed\r\n\n";
+        console.log(result.rowCount + " Records Received - Passed\n");
+        LogString += result.rowCount + " Records Received - Test Passed\n";
         success(LogString);
       }
       else{
-        console.log("No Records Received - Failed \r\n");
-        LogString += "No Records Received - Failed \r\n";
+        console.log("No Records Received - Failed \n");
+        LogString += "No Records Received - Failed \n";
         error(LogString)
       }
     })

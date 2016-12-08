@@ -15,7 +15,7 @@ module.exports = {
 		var LogString = "";
 
 		console.log("Test 2: Fisher Trip Username Match Test:");
-		LogString += "Test 2: Fisher Trip Username Match Test:\n"
+		LogString += "\nTest 2: Fisher Trip Username Match Test:\n"
 
 		//run a query on the database to pull the main_fisher_id__c and user_id__c fields from the trips table entered in the last 24h
 		client
@@ -52,7 +52,7 @@ module.exports = {
 					//if there is no match and the usertype is not a fisher_manager, output which user is incorrect and increment the total amount not found
 					if (match == false && !((users[row].abalobi_usertype__c).includes("fisher_manager"))){
 						console.log("Error @ sfID " + users_from_trips[person].sfid  );
-						LogString += "Error @ sfID " + users_from_trips[person].sfid + '\n'
+						LogString += "Error @ sfID " + users_from_trips[person].sfid + " https://eu5.salesforce.com/" + users_from_trips[person].sfid + '\n'
 						errors++;
 					}
 				}

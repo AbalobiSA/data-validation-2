@@ -1,6 +1,6 @@
 module.exports = {
 
- send_report : function(body){
+ send_report : function(body, callback){
 
 var nodemailer = require('nodemailer');
 
@@ -22,10 +22,10 @@ var transporter = nodemailer.createTransport({
     transporter.sendMail(mailOptions, function(error, info){
         if(error){
             console.log(error);
-            //res.json({yo: 'error'});
+            callback()
         }else{
             console.log('Message sent: ' + info.response);
-            //res.json({yo: info.response});
+            callback()
         };
     });
 
