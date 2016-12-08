@@ -27,7 +27,7 @@ pg.connect(DB_URL , function(err, client) {
 function fisherTests(client, fs, logger, callback){
   FISHER_RECORDS_RECEIVED.runTest(client, fs, function(){
     FISHER_USER_MATCH.runTest(client, fs, function(){
-      FISHER_CHILDREN_MATCH.runTest(client, fs, function(){
+      FISHER_USER_MATCH.runTest(client, fs, function(){
         callback()
       })
     })
