@@ -5,7 +5,7 @@ module.exports = {
 	//this check is to gurantee that the fisher who has submited data from a trip matches up with the username provided on the form.
 	//the only exception is a fisher_manager who is allowed to submit someone elses data
 
-	runTest : function(client, callback){
+	runTest : function(client,  startdate, enddate,  callback){
 
 		var users = [];
 		var users_from_trips = [];
@@ -19,7 +19,7 @@ module.exports = {
 
 		//run a query on the database to pull the main_fisher_id__c and user_id__c fields from the trips table entered in the last 24h
 		client
-		.query('SELECT main_fisher_id__c, user_id__c, sfid FROM salesforce.ablb_fisher_trip__c WHERE lastmodifieddate > current_timestamp - interval \'1 day\'')
+		.query('SELECT main_fisher_id__c, user_id__c, sfid FROM salesforce.ablb_fisher_trip__c WHERE lastmodifieddate BETWEEN \'' + startdate + '\' AND \'' + enddate + '\'')
 		.on('row', function(row) {
 			//each row is read from the database and is entered as an object in the array 'users_from_trips'
 			users_from_trips.push(row);

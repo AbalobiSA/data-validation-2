@@ -4,7 +4,7 @@ module.exports = {
 //for this check every fisher_trip record and validate that the amount child records in salesforce
 //corresponds to the amount of child records expected in every record.
 
-	runTest : function(client, callback){
+	runTest : function(client,  startdate, enddate, callback){
 
 		var data = [];
 		var entry;
@@ -16,7 +16,7 @@ module.exports = {
 
 		//query relevant fields from postgresdb
 		client
-		.query('SELECT num_children_in_sf__c, sfid, num_children_expected__c FROM salesforce.ablb_fisher_trip__c WHERE lastmodifieddate > current_timestamp - interval \'1 day\'')
+		.query('SELECT num_children_in_sf__c, sfid, num_children_expected__c FROM salesforce.ablb_fisher_trip__c WHERE lastmodifieddate BETWEEN \'' + startdate + '\' AND \'' + enddate + '\'')
 		.on('row', function(row) {
 			//each row is read from the database and is entered as an object in the array 'data'
 			data.push(row)

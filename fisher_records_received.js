@@ -1,7 +1,7 @@
 module.exports = {
 
 
-  runTest: function(client, success, error){
+  runTest: function(client,  startdate, enddate, success, error){
 
     //initialize logging for every console.log
     var LogString = "";
@@ -12,7 +12,7 @@ module.exports = {
 
 
       client
-    .query('SELECT * FROM salesforce.ablb_fisher_trip__c WHERE lastmodifieddate > current_timestamp - interval \'1 day\'')
+    .query('SELECT * FROM salesforce.ablb_fisher_trip__c WHERE lastmodifieddate BETWEEN \'' + startdate + '\' AND \'' + enddate + '\'')
     .on('end', function(result) {
       if (result.rowCount > 0){
         console.log(result.rowCount + " Records Received - Passed\n");

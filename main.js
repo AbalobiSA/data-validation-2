@@ -9,8 +9,37 @@ var timestamp = new Date();
 var log = "Heroku validation job started at: " + timestamp + "\n\n"
 
 var client = new pg.Client();
-var DB_URL = process.env.DATABASE_URL
-//creates 'logging.txt' file that will be send in email after checks and stores logs from various tests
+var DB_URL = process.env.DATABASE_URL || 'postgres://eaveeikumjabqn:HoOE8hCrYllmUdWI_fwNyi_NN0@ec2-54-247-98-197.eu-west-1.compute.amazonaws.com:5432/d1qik232pvmso9'
+
+//handle the time period between which the query searches.
+//if no time period specified default to last 24 hours
+var currentdate = new Date()
+var yesterday = new Date()
+yesterday.setDate(yesterday.getDate() - 1);
+
+//if valid argument are entered set them as the start and end date in the query's of the Tests
+if (process.argv[2] != undefined || process.argv[3] != undefined) {
+  var startdate = new Date(process.argv[2])
+  var enddate = new Date(process.argv[3])
+  startdate = startdate.toISOString();
+  enddate = enddate.toISOString();
+  console.log("start date: " + startdate)
+  console.log("end date: " + enddate)
+  log += "Dates Specified.\n Running Test between " + startdate + " and " + enddate + '\n\n'
+}
+
+/*else if no date or invalid dates are given as arguments the end date will be set to the current time and the
+//start date to 24h before the start date. i.e. will run query for last 24 hours
+*/
+else {
+  var startdate = yesterday;
+  var enddate = currentdate;
+  startdate = startdate.toISOString();
+  enddate = enddate.toISOString();
+  console.log("started date: " + startdate)
+  console.log("ended date: " + enddate)
+  log += "No Dates Specified.\n Running Test between " + startdate + " and " + enddate + '\n\n'
+}
 
 
 //connects to PG database will output to console if connection is succesful
@@ -21,7 +50,7 @@ pg.connect(DB_URL , function(err, client) {
   console.log('Connected to postgres succesfully \n');
   log += 'Connected to postgres succesfully \n\n'
 
-  fisherTests(client, log, function(test_logs){
+  fisherTests(client, log, startdate, enddate, function(test_logs){
     console.log("\nFisher Tests Run");
     log += test_logs
     log += "\nFisher Tests Run\n"
@@ -31,11 +60,11 @@ pg.connect(DB_URL , function(err, client) {
   })
 });
 
-function fisherTests(client, log, callback){
-  FISHER_RECORDS_RECEIVED.runTest(client,  function(returned_text){
-    FISHER_USER_MATCH.runTest(client,  function(returned_text_2){
-      FISHER_CHILDREN_MATCH.runTest(client,  function(returned_text_3){
-         //log += (returned_text + returned_text_2 + returned_text_3)
+function fisherTests(client, log, startdate, enddate, callback){
+  FISHER_RECORDS_RECEIVED.runTest(client, startdate, enddate,  function(returned_text){
+    FISHER_USER_MATCH.runTest(client,  startdate, enddate,  function(returned_text_2){
+      FISHER_CHILDREN_MATCH.runTest(client,  startdate, enddate,  function(returned_text_3){
+        //log += (returned_text + returned_text_2 + returned_text_3)
         callback(returned_text + returned_text_2 + returned_text_3);
       })
     })
