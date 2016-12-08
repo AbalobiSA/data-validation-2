@@ -26,6 +26,7 @@ pg.connect(DB_URL , function(err, client) {
 
 function fisherTests(client, fs, logger, callback){
   FISHER_RECORDS_RECEIVED.runTest(client, fs, function(returned_text){
+      console.log("LOGGING RETURNED TEXT 1: \n" + returned_text);
     FISHER_USER_MATCH.runTest(client, fs, function(returned_text_2){
       FISHER_CHILDREN_MATCH.runTest(client, fs, function(returned_text_3){
         var finalLogArray = {};
