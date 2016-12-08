@@ -20,7 +20,7 @@ pg.connect(DB_URL , function(err, client) {
 fisherTests(client, fs, logger, function(){
   console.log("\n Fisher Tests Run")
   logger.write_to_log(fs, "\n Fisher Test Run")
-  logger.send_report();
+  logger.send_log_report();
 })
 })
 
