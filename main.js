@@ -6,7 +6,7 @@ const FISHER_CHILDREN_MATCH = require('./fisher_children_match');
 const FISHER_RECORDS_RECEIVED = require('./fisher_records_received');
 
 var client = new pg.Client();
-var DB_URL = process.env.DATABASE_URL
+var DB_URL = 'postgres://eaveeikumjabqn:HoOE8hCrYllmUdWI_fwNyi_NN0@ec2-54-247-98-197.eu-west-1.compute.amazonaws.com:5432/d1qik232pvmso9'
 //creates 'logging.txt' file that will be send in email after checks and stores logs from various tests
 logger.create_log(fs)
 
@@ -17,11 +17,11 @@ pg.connect(DB_URL , function(err, client) {
   if (err) throw err;
   console.log('Connected to postgres succesfully \r\n')
   logger.write_to_log(fs,'Connected to postgres successfully  \r\n\n')
-fisherTests(client, fs, logger, function(){
-  console.log("\n Fisher Tests Run")
-  logger.write_to_log(fs, "\n Fisher Test Run")
-  logger.send_log_report();
-})
+  fisherTests(client, fs, logger, function(){
+    console.log("\nFisher Tests Run")
+    logger.write_to_log(fs, "\n Fisher Test Run")
+    logger.send_log_report();
+  })
 })
 
 function fisherTests(client, fs, logger, callback){

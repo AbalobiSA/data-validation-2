@@ -1,2 +1,18 @@
-Heroku validation job started at: Thu Dec 08 2016 08:56:31 GMT+0200 (South Africa Standard Time)
+Heroku validation job started at: Thu Dec 08 2016 09:45:29 GMT+0200 (South Africa Standard Time)
 
+Connected to postgres successfully  
+
+Test 1: Fisher Trip Records Received Test: 
+11 Records Received - Test Passed
+
+Test 2: Fisher Trip Username Match Test:
+11 records were received
+Error @ sfID a0f240000058VHvAAM
+Error @ sfID a0f240000058VVdAAM
+2 Errors - Test Failed 
+
+Test 3: Fisher Trip Children Expected Match Test: 
+11 records were received 
+0 Errors - Test Passed 
+
+ Fisher Test Run

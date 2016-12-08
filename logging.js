@@ -35,6 +35,7 @@ module.exports = {
           return console.log(err);
         }
         MAILER.send_report(data)
+        console.log("data in email:" + data)
 
       });
   }
