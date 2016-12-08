@@ -22,7 +22,7 @@ module.exports = {
 		.on('row', function(row) {
 			//each row is read from the database and is entered as an object in the array 'data'
 			data.push(row)
-		}),
+		})
 		//output is given of the amount of records entered once the rows have finished being read
 		.on('end', function(result) {
 			console.log(result.rowCount + ' records were received')
