@@ -9,7 +9,7 @@ var timestamp = new Date();
 var log = "Heroku validation job started at: " + timestamp + "\n\n"
 
 var client = new pg.Client();
-var DB_URL = process.env.DATABASE_URL || 'postgres://eaveeikumjabqn:HoOE8hCrYllmUdWI_fwNyi_NN0@ec2-54-247-98-197.eu-west-1.compute.amazonaws.com:5432/d1qik232pvmso9'
+var DB_URL = process.env.DATABASE_URL
 
 //handle the time period between which the query searches.
 //if no time period specified default to last 24 hours
