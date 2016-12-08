@@ -11,8 +11,9 @@ module.exports = {
 		var errors = 0;
 		var logger = require('./logging.js')
 
-		console.log("Test 3: Fisher Trip Children Expected Match Test: ");
 		logger.write_to_log(fs,"Test 3: Fisher Trip Children Expected Match Test: \n")
+		console.log("Test 3: Fisher Trip Children Expected Match Test: ");
+
 
 
 		//query relevant fields from postgresdb
@@ -21,11 +22,11 @@ module.exports = {
 		.on('row', function(row) {
 			//each row is read from the database and is entered as an object in the array 'data'
 			data.push(row)
-		})
+		}),
 		//output is given of the amount of records entered once the rows have finished being read
 		.on('end', function(result) {
 			console.log(result.rowCount + ' records were received')
-			logger.write_to_log(fs,result.rowCount + ' records were received \n')
+			logger.write_to_log(fs, result.rowCount + ' records were received \n')
 
 			//for every record verify that the number in salesforce corresponds to the expected value on the record
 			//if not eqaul flag a error at the relevant record's ID

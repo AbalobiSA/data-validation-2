@@ -16,7 +16,7 @@ pg.connect(DB_URL , function(err, client) {
 
   if (err) throw err;
   console.log('Connected to postgres succesfully \r\n')
-  logger.write_to_log(fs,'Connected to postgres successfully  \r\n\n')
+  //logger.write_to_log(fs,'Connected to postgres successfully  \r\n\n')
   fisherTests(client, fs, logger, function(){
     console.log("\nFisher Tests Run")
     logger.write_to_log(fs, "\n Fisher Test Run")
