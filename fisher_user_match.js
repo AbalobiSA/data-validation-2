@@ -12,24 +12,24 @@ module.exports = {
 		var row;
 		var person;
 		var errors = 0;
-		var logger = require('./logging.js')
+		var logger = require('./logging.js');
 
 		console.log("Test 2: Fisher Trip Username Match Test:");
-		logger.write_to_log(fs, "Test 2: Fisher Trip Username Match Test:\n")
+		logger.write_to_log(fs, "Test 2: Fisher Trip Username Match Test:\n");
 
 		//run a query on the database to pull the main_fisher_id__c and user_id__c fields from the trips table entered in the last 24h
 		client
 		.query('SELECT main_fisher_id__c, user_id__c, sfid FROM salesforce.ablb_fisher_trip__c WHERE lastmodifieddate > current_timestamp - interval \'1 day\'')
 		.on('row', function(row) {
 			//each row is read from the database and is entered as an object in the array 'users_from_trips'
-			users_from_trips.push(row)
+			users_from_trips.push(row);
 		//	console.log(row.sfid)
 			//console.log(row.main_fisher_id__c + " " + row.user_id__c )
 		})
 		//when the rows have been finished output how many trips were made in the last 24h
 		.on('end', function(result) {
-			console.log(result.rowCount + ' records were received')
-			logger.write_to_log(fs, result.rowCount + ' records were received\n')
+			console.log(result.rowCount + ' records were received');
+			logger.write_to_log(fs, result.rowCount + ' records were received\n');
 
 			//run another query to recieve all possible username and abalobi_id__c combinations from the database
 			client
@@ -42,7 +42,7 @@ module.exports = {
 			.on('end', function(result) {
 				//scan the array of total users for a match for each of the users_from trip for a match
 				for (person in users_from_trips){
-					var match = false
+					var match = false;
 					for (row in users){
 						//check if the trip's user corresponds to correct abalobi ID and username
 						if (users[row].abalobi_id__c == users_from_trips[person].main_fisher_id__c && users[row].username == users_from_trips[person].user_id__c ){
@@ -51,24 +51,24 @@ module.exports = {
 					}
 					//if there is no match and the usertype is not a fisher_manager, output which user is incorrect and increment the total amount not found
 					if (match == false && !((users[row].abalobi_usertype__c).includes("fisher_manager"))){
-						console.log("Error @ sfID " + users_from_trips[person].sfid  )
-						logger.write_to_log(fs, "Error @ sfID " + users_from_trips[person].sfid + '\n')
+						console.log("Error @ sfID " + users_from_trips[person].sfid  );
+						logger.write_to_log(fs, "Error @ sfID " + users_from_trips[person].sfid + '\n');
 						errors++;
 					}
 				}
 				if (errors == 0){
-					console.log("0 Errors - Test Passed \r\n")
-					logger.write_to_log(fs, "0 Errors - Test Passed \r\n\n")
+					console.log("0 Errors - Test Passed \r\n");
+					logger.write_to_log(fs, "0 Errors - Test Passed \r\n\n");
 					callback();
 				}
 				else{
 				//output the total amount of users who are a mismatch
-				console.log(errors + " Errors - Test Failed \r\n")
-				logger.write_to_log(fs, errors + " Errors - Test Failed \r\n\n")
+				console.log(errors + " Errors - Test Failed \r\n");
+				logger.write_to_log(fs, errors + " Errors - Test Failed \r\n\n");
 				callback();
 			}
 
 		})
 		})
 	}
-}
+};

@@ -6,12 +6,12 @@ module.exports = {
 
 	runTest : function(client, fs, callback){
 
-		var data = []
-		var entry
+		var data = [];
+		var entry;
 		var errors = 0;
-		var logger = require('./logging.js')
+		var logger = require('./logging.js');
 
-		logger.write_to_log(fs,"Test 3: Fisher Trip Children Expected Match Test: \n")
+		logger.write_to_log(fs,"Test 3: Fisher Trip Children Expected Match Test: \n");
 		console.log("Test 3: Fisher Trip Children Expected Match Test: ");
 
 
@@ -25,28 +25,28 @@ module.exports = {
 		})
 		//output is given of the amount of records entered once the rows have finished being read
 		.on('end', function(result) {
-			console.log(result.rowCount + ' records were received')
-			logger.write_to_log(fs, result.rowCount + ' records were received \n')
+			console.log(result.rowCount + ' records were received');
+			logger.write_to_log(fs, result.rowCount + ' records were received \n');
 
 			//for every record verify that the number in salesforce corresponds to the expected value on the record
 			//if not eqaul flag a error at the relevant record's ID
 			//Note: that if both fields are undefined it is not flagged as error
 			for (entry in data){
 				if ((data[entry].num_children_in_sf__c != data[entry].num_children_expected__c) && (data[entry].num_children_in_sf__c != undefined && data[entry].num_children_expected__c != undefined)){
-					console.log("Error @ sfID " + data[entry].sfid)
-					logger.write_to_log(fs,"Error @ sfID " + data[entry].sfid + '\n')
+					console.log("Error @ sfID " + data[entry].sfid);
+					logger.write_to_log(fs,"Error @ sfID " + data[entry].sfid + '\n');
 					errors++;
 				}
 			}
 			if (errors == 0){
-				console.log("0 Errors - Test Passed \r\n")
-				logger.write_to_log(fs, "0 Errors - Test Passed \r\n")
+				console.log("0 Errors - Test Passed \r\n");
+				logger.write_to_log(fs, "0 Errors - Test Passed \r\n");
 				callback();
 			}
 			else{
 			//output the total amount of users who are a mismatch
-			console.log(errors + " Errors - Test Failed \r\n")
-			logger.write_to_log(fs, errors + " Errors - Test Failed \r\n")
+			console.log(errors + " Errors - Test Failed \r\n");
+			logger.write_to_log(fs, errors + " Errors - Test Failed \r\n");
 			callback();
 		}
 
@@ -54,4 +54,4 @@ module.exports = {
 		})
 
 	}
-}
+};

@@ -25,13 +25,18 @@ pg.connect(DB_URL , function(err, client) {
 });
 
 function fisherTests(client, fs, logger, callback){
-  FISHER_RECORDS_RECEIVED.runTest(client, fs, function(){
-    FISHER_USER_MATCH.runTest(client, fs, function(){
-      FISHER_USER_MATCH.runTest(client, fs, function(){
+  FISHER_RECORDS_RECEIVED.runTest(client, fs, function(returned_text){
+    FISHER_USER_MATCH.runTest(client, fs, function(returned_text_2){
+      FISHER_CHILDREN_MATCH.runTest(client, fs, function(returned_text_3){
+        var finalLogArray = {};
+          finalLogArray.records_recieved = returned_text;
+          finalLogArray.user_match = returned_text_2;
+          finalLogArray.records_recieved = returned_text_3;
+
         callback();
       })
     })
-  }, function(){
+  }, function(){s
     console.log("No Records Received Fisher Tests Aborted");
     logger.write_to_log(fs,"No Records Received Fisher Tests Aborted")
   })
