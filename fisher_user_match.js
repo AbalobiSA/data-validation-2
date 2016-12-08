@@ -5,17 +5,17 @@ module.exports = {
 	//this check is to gurantee that the fisher who has submited data from a trip matches up with the username provided on the form.
 	//the only exception is a fisher_manager who is allowed to submit someone elses data
 
-	runTest : function(client, fs, callback){
+	runTest : function(client, callback){
 
 		var users = [];
 		var users_from_trips = [];
 		var row;
 		var person;
 		var errors = 0;
-		var logger = require('./logging.js');
+		var LogString = "";
 
 		console.log("Test 2: Fisher Trip Username Match Test:");
-		logger.write_to_log(fs, "Test 2: Fisher Trip Username Match Test:\n");
+		LogString += "Test 2: Fisher Trip Username Match Test:\n"
 
 		//run a query on the database to pull the main_fisher_id__c and user_id__c fields from the trips table entered in the last 24h
 		client
@@ -29,7 +29,7 @@ module.exports = {
 		//when the rows have been finished output how many trips were made in the last 24h
 		.on('end', function(result) {
 			console.log(result.rowCount + ' records were received');
-			logger.write_to_log(fs, result.rowCount + ' records were received\n');
+			LogString += result.rowCount + ' records were received\n'
 
 			//run another query to recieve all possible username and abalobi_id__c combinations from the database
 			client
@@ -52,20 +52,20 @@ module.exports = {
 					//if there is no match and the usertype is not a fisher_manager, output which user is incorrect and increment the total amount not found
 					if (match == false && !((users[row].abalobi_usertype__c).includes("fisher_manager"))){
 						console.log("Error @ sfID " + users_from_trips[person].sfid  );
-						logger.write_to_log(fs, "Error @ sfID " + users_from_trips[person].sfid + '\n');
+						LogString += "Error @ sfID " + users_from_trips[person].sfid + '\n'
 						errors++;
 					}
 				}
 				if (errors == 0){
 					console.log("0 Errors - Test Passed \r\n");
-					logger.write_to_log(fs, "0 Errors - Test Passed \r\n\n");
-					callback();
+					LogString +="0 Errors - Test Passed \r\n\n"
+					callback(LogString);
 				}
 				else{
 				//output the total amount of users who are a mismatch
 				console.log(errors + " Errors - Test Failed \r\n");
-				logger.write_to_log(fs, errors + " Errors - Test Failed \r\n\n");
-				callback();
+				LogString += errors + " Errors - Test Failed \r\n\n"
+				callback(LogString);
 			}
 
 		})

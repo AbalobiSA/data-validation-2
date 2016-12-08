@@ -4,17 +4,15 @@ module.exports = {
 //for this check every fisher_trip record and validate that the amount child records in salesforce
 //corresponds to the amount of child records expected in every record.
 
-	runTest : function(client, fs, callback){
+	runTest : function(client, callback){
 
 		var data = [];
 		var entry;
 		var errors = 0;
-		var logger = require('./logging.js');
+		var LogString = "";
 
-		logger.write_to_log(fs,"Test 3: Fisher Trip Children Expected Match Test: \n");
 		console.log("Test 3: Fisher Trip Children Expected Match Test: ");
-
-
+		LogString += "Test 3: Fisher Trip Children Expected Match Test: \n"
 
 		//query relevant fields from postgresdb
 		client
@@ -26,7 +24,7 @@ module.exports = {
 		//output is given of the amount of records entered once the rows have finished being read
 		.on('end', function(result) {
 			console.log(result.rowCount + ' records were received');
-			logger.write_to_log(fs, result.rowCount + ' records were received \n');
+			LogString += result.rowCount + ' records were received \n';
 
 			//for every record verify that the number in salesforce corresponds to the expected value on the record
 			//if not eqaul flag a error at the relevant record's ID
@@ -34,22 +32,21 @@ module.exports = {
 			for (entry in data){
 				if ((data[entry].num_children_in_sf__c != data[entry].num_children_expected__c) && (data[entry].num_children_in_sf__c != undefined && data[entry].num_children_expected__c != undefined)){
 					console.log("Error @ sfID " + data[entry].sfid);
-					logger.write_to_log(fs,"Error @ sfID " + data[entry].sfid + '\n');
+					LogString += "Error @ sfID " + data[entry].sfid + '\n';
 					errors++;
 				}
 			}
 			if (errors == 0){
 				console.log("0 Errors - Test Passed \r\n");
-				logger.write_to_log(fs, "0 Errors - Test Passed \r\n");
-				callback();
+				LogString += "0 Errors - Test Passed \r\n";
+				callback(LogString);
 			}
 			else{
 			//output the total amount of users who are a mismatch
 			console.log(errors + " Errors - Test Failed \r\n");
-			logger.write_to_log(fs, errors + " Errors - Test Failed \r\n");
-			callback();
+			LogString += errors + " Errors - Test Failed \r\n";
+			callback(LogString);
 		}
-
 
 		})
 
