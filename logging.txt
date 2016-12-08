@@ -1,0 +1,2 @@
+Heroku validation job started at: Thu Dec 08 2016 08:56:31 GMT+0200 (South Africa Standard Time)
+
