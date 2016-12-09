@@ -13,8 +13,7 @@ var log = "Heroku validation job started at: " //+ timestamp + "\n\n"
 
 //create new postgres client and get postgres URL from heroku enviroment variable
 var client = new pg.Client();
-var DB_URL =  'postgres://eaveeikumjabqn:HoOE8hCrYllmUdWI_fwNyi_NN0@ec2-54-247-98-197.eu-west-1.compute.amazonaws.com:5432/d1qik232pvmso9'
-
+var DB_URL =  process.env.DATABASE_URL
 //handle the time period between which the query searches.
 //if no time period specified default to last 24 hours
 var currentdate = new Date()
@@ -86,6 +85,7 @@ function fisherTests(client, log, startdate, enddate, callback){
 }
 
 function monitorTests(client, log, startdate, enddate, callback){
+
   MONITOR_RECORDS_RECEIVED.runTest(client, startdate, enddate,  function(returned_text){
     //run other tests
     callback(returned_text)
