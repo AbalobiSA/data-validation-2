@@ -1,5 +1,9 @@
 module.exports = {
 
+/*test that run and evaluates if any trip records were receieved during the specified time range.
+if any records are recieved the test is passed and other tests are executed. If no records are recieved
+the test fails and no other tests for fisher trips are done. */
+
 
   runTest: function(client,  startdate, enddate, success, error){
 
@@ -7,21 +11,22 @@ module.exports = {
     var LogString = "";
 
 
-    console.log("Test 1: Fisher Trip Records Received Test:");
-    LogString += "Test 1: Fisher Trip Records Received Test:\n";
+    console.log("Fisher Tests:\n\nTest 1: Fisher Trip Records Received Test:");
+    LogString += "Fisher Tests:\n\nTest 1: Fisher Trip Records Received Test:\n";
 
 
+    //query the postgres database for fisher trips between start date and end date given, returns logging info
       client
     .query('SELECT * FROM salesforce.ablb_fisher_trip__c WHERE lastmodifieddate BETWEEN \'' + startdate + '\' AND \'' + enddate + '\'')
     .on('end', function(result) {
       if (result.rowCount > 0){
-        console.log(result.rowCount + " Records Received - Passed\n");
+        console.log(result.rowCount + " Records Received - Test Passed\n");
         LogString += result.rowCount + " Records Received - Test Passed\n";
         success(LogString);
       }
       else{
-        console.log("No Records Received - Failed \n");
-        LogString += "No Records Received - Failed \n";
+        console.log("No Records Received - Test Failed \n");
+        LogString += "No Records Received - Test Failed \n";
         error(LogString)
       }
     })

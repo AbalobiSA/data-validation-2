@@ -38,13 +38,13 @@ module.exports = {
 			}
 			if (errors == 0){
 				console.log("0 Errors - Test Passed \n");
-				LogString += "0 Errors - Test Passed \n";
+				LogString += "0 Errors - Test Passed \n\n";
 				callback(LogString);
 			}
 			else{
 			//output the total amount of users who are a mismatch
 			console.log(errors + " Errors - Test Failed \n");
-			LogString += errors + " Errors - Test Failed \n";
+			LogString += errors + " Errors - Test Failed \n\n";
 			callback(LogString);
 		}
 

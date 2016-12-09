@@ -12,6 +12,8 @@ module.exports = {
 		var row;
 		var person;
 		var errors = 0;
+		
+		//variable that stores all logging info for individual job
 		var LogString = "";
 
 		console.log("Test 2: Fisher Trip Username Match Test:");

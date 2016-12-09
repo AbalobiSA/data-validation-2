@@ -1,15 +1,19 @@
+//load all the required packages/modules
 const pg = require('pg');
 const fs = require('fs');
 const email = require('./email')
 const FISHER_USER_MATCH = require('./fisher_user_match');
 const FISHER_CHILDREN_MATCH = require('./fisher_children_match');
 const FISHER_RECORDS_RECEIVED = require('./fisher_records_received');
+const MONITOR_RECORDS_RECEIVED = require('./monitor_records_received')
 
+//create a timestamp in UTC and create master log for tests
 var timestamp = new Date();
-var log = "Heroku validation job started at: " + timestamp + "\n\n"
+var log = "Heroku validation job started at: " //+ timestamp + "\n\n"
 
+//create new postgres client and get postgres URL from heroku enviroment variable
 var client = new pg.Client();
-var DB_URL = process.env.DATABASE_URL
+var DB_URL =  'postgres://eaveeikumjabqn:HoOE8hCrYllmUdWI_fwNyi_NN0@ec2-54-247-98-197.eu-west-1.compute.amazonaws.com:5432/d1qik232pvmso9'
 
 //handle the time period between which the query searches.
 //if no time period specified default to last 24 hours
@@ -50,26 +54,42 @@ pg.connect(DB_URL , function(err, client) {
   console.log('Connected to postgres succesfully \n');
   log += 'Connected to postgres succesfully \n\n'
 
-  fisherTests(client, log, startdate, enddate, function(test_logs){
-    console.log("\nFisher Tests Run");
-    log += test_logs
-    log += "\nFisher Tests Run\n"
-    email.send_report(log, function(){
-      client.end();
+  //fisher tests are run where after email is send
+fisherTests(client, log, startdate, enddate, function(test_logs){
+
+  log += test_logs
+
+    monitorTests(client, log, startdate, enddate, function(test_logs){
+
+      log += test_logs
+      email.send_report(log, function(){
+        client.end();
+      })
     })
-  })
+    })
 });
 
+//master fisher test function if records are received run all test else if first test fails
+//no other fisher tests will be run
 function fisherTests(client, log, startdate, enddate, callback){
+
   FISHER_RECORDS_RECEIVED.runTest(client, startdate, enddate,  function(returned_text){
-    FISHER_USER_MATCH.runTest(client,  startdate, enddate,  function(returned_text_2){
-      FISHER_CHILDREN_MATCH.runTest(client,  startdate, enddate,  function(returned_text_3){
-        //log += (returned_text + returned_text_2 + returned_text_3)
+    FISHER_USER_MATCH.runTest(client, startdate, enddate,  function(returned_text_2){
+      FISHER_CHILDREN_MATCH.runTest(client, startdate, enddate,  function(returned_text_3){
         callback(returned_text + returned_text_2 + returned_text_3);
       })
     })
-  }, function(){s
-    console.log("No Records Received Fisher Tests Aborted");
-    log += "No Records Received Fisher Tests Aborted"
+  }, function(){
+    console.log("No Records Received Fisher Tests Not Run");
+    callback( "No Records Received - Fisher Tests Not Run")
+  })
+}
+
+function monitorTests(client, log, startdate, enddate, callback){
+  MONITOR_RECORDS_RECEIVED.runTest(client, startdate, enddate,  function(returned_text){
+    //run other tests
+    callback(returned_text)
+  },function(returned_text){
+    callback(returned_text + "Monitor Tests Not Run")
   })
 }
