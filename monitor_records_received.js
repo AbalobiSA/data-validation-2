@@ -26,13 +26,13 @@ module.exports = {
       .query('SELECT * FROM salesforce.ablb_monitor_day__c WHERE lastmodifieddate BETWEEN \'' + startdate + '\' AND \'' + enddate + '\'')
       .on('end', function(result) {
         if (result.rowCount > 0){
-          console.log(result.rowCount + " Records Received - Passed\r\n")
-          LogString += result.rowCount + " Records Received - Passed\n\n"
+          console.log(result.rowCount + " Records Received - PASSED\r\n")
+          LogString += result.rowCount + " Records Received - PASSED\n\n"
           success(LogString)
         }
         else{
-          console.log("No Records Received - Failed \r\n")
-          LogString += "No Records Received - Failed \n\n"
+          console.log("No Records Received - FAILED \r\n")
+          LogString += "No Records Received - FAILED \n\n"
           error(LogString);
         }
       })
@@ -40,7 +40,7 @@ module.exports = {
 
     else {
       console.log("Not a Weekday Monitor - Test Not Run")
-      LogString += "Not a Weekday Monitor - Test Not Run\n"
+      LogString += "Not a Weekday Monitor - Test Not Run\n\n"
       error(Logstring);
     }
   }

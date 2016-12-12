@@ -1,21 +1,21 @@
 module.exports = {
 
- send_report : function(body, callback){
+ send_report : function(body, subject, callback){
 
 var nodemailer = require('nodemailer');
 
 var transporter = nodemailer.createTransport({
         service: 'Gmail',
         auth: {
-            user: 'techairosmail@gmail.com', // Your email id
-            pass: 'tech97531' // Your password
+            user: process.env.EMAIL_SENDER_USER, // Your email id
+            pass: process.env.EMAIL_SENDER_PASS // Your password
         }
     });
 
     var mailOptions = {
-        from: 'techairosmail@gmail.com', // sender address
-        to: 'arnovandermerwe39@gmail.com', // list of receivers
-        subject: 'Heroku Validation Check', // Subject line
+        from: process.env.EMAIL_SENDER_USER, // sender address
+        to: process.env.EMAIL_RECEIVER, // list of receivers
+        subject: subject, // Subject line
         text: body
     };
 

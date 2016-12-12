@@ -12,12 +12,12 @@ module.exports = {
 		var row;
 		var person;
 		var errors = 0;
-		
+
 		//variable that stores all logging info for individual job
 		var LogString = "";
 
 		console.log("Test 2: Fisher Trip Username Match Test:");
-		LogString += "\nTest 2: Fisher Trip Username Match Test:\n"
+		LogString += "Test 2: Fisher Trip Username Match Test:\n"
 
 		//run a query on the database to pull the main_fisher_id__c and user_id__c fields from the trips table entered in the last 24h
 		client
@@ -25,7 +25,7 @@ module.exports = {
 		.on('row', function(row) {
 			//each row is read from the database and is entered as an object in the array 'users_from_trips'
 			users_from_trips.push(row);
-		//	console.log(row.sfid)
+			//	console.log(row.sfid)
 			//console.log(row.main_fisher_id__c + " " + row.user_id__c )
 		})
 		//when the rows have been finished output how many trips were made in the last 24h
@@ -59,18 +59,18 @@ module.exports = {
 					}
 				}
 				if (errors == 0){
-					console.log("0 Errors - Test Passed \r\n");
-					LogString +="0 Errors - Test Passed \r\n\n"
-					callback(LogString);
+					console.log("0 Errors - Test PASSED \n");
+					LogString +="0 Errors - Test PASSED \n"
+					callback(LogString, errors);
 				}
 				else{
-				//output the total amount of users who are a mismatch
-				console.log(errors + " Errors - Test Failed \r\n");
-				LogString += errors + " Errors - Test Failed \r\n\n"
-				callback(LogString);
-			}
+					//output the total amount of users who are a mismatch
+					console.log(errors + " Errors - Test FAILED \r\n");
+					LogString += errors + " Errors - Test FAILED \n"
+					callback(LogString, errors);
+				}
 
-		})
+			})
 		})
 	}
 };

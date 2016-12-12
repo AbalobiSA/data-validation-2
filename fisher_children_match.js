@@ -1,8 +1,8 @@
 module.exports = {
 
-//function to run second check of validation.
-//for this check every fisher_trip record and validate that the amount child records in salesforce
-//corresponds to the amount of child records expected in every record.
+	//function to run second check of validation.
+	//for this check every fisher_trip record and validate that the amount child records in salesforce
+	//corresponds to the amount of child records expected in every record.
 
 	runTest : function(client,  startdate, enddate, callback){
 
@@ -37,16 +37,16 @@ module.exports = {
 				}
 			}
 			if (errors == 0){
-				console.log("0 Errors - Test Passed \n");
-				LogString += "0 Errors - Test Passed \n\n";
-				callback(LogString);
+				console.log("0 Errors - Test PASSED \n");
+				LogString += "0 Errors - Test PASSED \n";
+				callback(LogString, errors);
 			}
 			else{
-			//output the total amount of users who are a mismatch
-			console.log(errors + " Errors - Test Failed \n");
-			LogString += errors + " Errors - Test Failed \n\n";
-			callback(LogString);
-		}
+				//output the total amount of users who are a mismatch
+				console.log(errors + " Errors - Test FAILED \n");
+				LogString += errors + " Errors - Test FAILED \n";
+				callback(LogString, errors);
+			}
 
 		})
 
