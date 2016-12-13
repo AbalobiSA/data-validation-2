@@ -9,11 +9,11 @@ module.exports = {
 
     //initialize logging for every console.log
     var LogString = "";
-    var dashline = "-------------------------------------------------\n\n"
+    var dashline = "--------------------------\n\n"
 
 
     console.log("Fisher Tests:\n\nTest 1: Fisher Trip Records Received Test:");
-    LogString += "Fisher Tests:\n\nTest 1: Fisher Trip Records Received Test:\n";
+    LogString += "Fisher Tests:\n" + dashline + "Test 1: Fisher Trip Records Received Test:\n"
 
 
     //query the postgres database for fisher trips between start date and end date given, returns logging info

@@ -131,8 +131,8 @@ function fisherTests(client, log, startdate, enddate, callback){
     total_errors +=1;
     tests_run += 1;
     tests_failed +=1;
-    console.log("No Records Received Fisher Tests Not Run");
-    callback( "No Records Received - Fisher Tests Not Run" )
+    console.log("No Records Received - No Further Fisher Tests Run");
+    callback( "No Records Received - No Further Fisher Tests Run" )
   })
 }
 
@@ -146,6 +146,6 @@ function monitorTests(client, log, startdate, enddate, callback){
     total_errors +=1;
     tests_run +=1;
     tests_failed +=1;
-    callback(returned_text + "Monitor Tests Not Run\n\n" + dashline)
+    callback(returned_text + "No Further Monitor Tests Run\n\n" + dashline)
   })
 }

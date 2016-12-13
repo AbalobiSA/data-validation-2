@@ -15,7 +15,7 @@ module.exports = {
     .query('SELECT * FROM salesforce.ablb_fisher_trip__c WHERE lastmodifieddate BETWEEN \'' + startdate + '\' AND \'' + enddate + '\'')
     .on('row', function(row) {
 
-      if (row.trip_has__c == 'yes'){
+      if (row.trip_has__c == 'yes' && row.displayed_profit__c != null){
         trips.push(row)
       //  console.log(row.id)
       }
@@ -61,7 +61,7 @@ module.exports = {
 
           var profit = total_income - total_cost
           //console.log(trips[iterator].id + " : Calculated Profit: " + profit)
-          if (profit != trips[iterator].displayed_profit__c){
+          if (profit != trips[iterator].displayed_profit__c && !((trips[iterator].odk_uuid__c).includes("faketrip"))  ){
             console.log("Error @ sfID " + trips[iterator].sfid  );
 						LogString += "Error @ sfID " + trips[iterator].sfid + " https://eu5.salesforce.com/" + trips[iterator].sfid + '\n'
             errors++;
