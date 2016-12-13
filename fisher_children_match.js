@@ -32,7 +32,7 @@ module.exports = {
 			for (entry in data){
 				if ((data[entry].num_children_in_sf__c != data[entry].num_children_expected__c) && (data[entry].num_children_in_sf__c != undefined && data[entry].num_children_expected__c != undefined)){
 					console.log("Error @ sfID " + data[entry].sfid);
-					LogString += "Error @ sfID " + data[entry].sfid + '\n';
+					LogString += "Error @ sfID " + data[entry].sfid + " https://eu5.salesforce.com/" + data[entry].sfid + '\n';
 					errors++;
 				}
 			}
