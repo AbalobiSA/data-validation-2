@@ -2,6 +2,8 @@ module.exports = {
 
   runTest : function(client,  startdate, enddate,  callback){
 
+    /*a test that checks each catch that has come in and evaluates whether the quanities of
+    of the catch etc. amount sold to coop amount kept add up. */
 
     var errors = 0
     var LogString = "";
@@ -9,10 +11,13 @@ module.exports = {
     console.log("Test 5: Catch Quanity Check: ");
     LogString += "Test 5: Catch Quanity Check: \n"
 
+    //query all catches that have come in, in given time period
     client
     .query('SELECT * FROM salesforce.ablb_fisher_catch__c WHERE lastmodifieddate BETWEEN \'' + startdate + '\' AND \'' + enddate + '\'')
     .on('row', function(row) {
 
+      //if price type is total batch ignore as quanity will then be irrelevant
+      //if the quantities is not valid flag an error and add id to log with link
       if (row.coop_price_type__c != 'total_batch' && row.other_price_type__c != 'total_batch'){
           checkQuanity(row, function(valid){
             if (!valid){
@@ -24,6 +29,7 @@ module.exports = {
       }
     })
 
+    //on end of query log amount of records recceived and the amount of errors etc...
     .on('end', function(result) {
 
       console.log(result.rowCount + ' records were received')
@@ -49,6 +55,7 @@ module.exports = {
 
       var valid = true
 
+      //handle sold to coop
       switch(each_catch.coop_price_type__c) {
 
         case 'per_item':
@@ -76,7 +83,7 @@ module.exports = {
         break;
 
       }
-
+      //handle sold to other
       switch(each_catch.other_price_type__c) {
 
         case 'per_item':

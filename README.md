@@ -11,7 +11,11 @@ import heroku config variables as follow:
 where variable name is then the specified heroku config variables viewable in settings. Please import all variables listed there.
 You will have to be logged into heroku to do this!
 
-Runs with `heroku local:run npm start`. If no arguments are specified by default all the tests will be ran by pulling records from the last 24 hours ending at the time of start. If a test needs to be run between a specific start and end date this can be specified by using this format: `heroku local:run npm start "YYYY-MM-DD" "YYYY-MM-DD"` The first argument specifies the start date and the second the end date. Note that the dates must be in quotes and be in the 'YYYY-MM-DD' format and that the arguments are not seperated by any commas. 
+Runs with `heroku local:run npm start`. If no arguments are specified by default all the tests will be ran by pulling records from the last 24 hours ending at the time of start. If a test needs to be run between a specific start and end date this can be specified by using this format: `heroku local:run npm start "YYYY-MM-DD" "YYYY-MM-DD"` The first argument specifies the start date and the second the end date. Note that the dates must be in quotes and be in the 'YYYY-MM-DD' format and that the arguments are not seperated by any commas.
+
+##E-mail Logging
+
+Test results are send by email at the end of execution. The email addresses the script sends to and sends from are specified in the heroku config variables as discussed above. These can be edited on Heroku. Or in the .env for local testing. (The env. is included in gitignore and will not push to heroku). The e-mail gives a general summary of the job ran highlighting any errors picked up in the tests and provides a link to the salesforce records of any entry that failed a test.
 
 ###Fisher Tests
 
