@@ -7,6 +7,7 @@ const FISHER_CHILDREN_MATCH = require('./fisher_children_match');
 const FISHER_RECORDS_RECEIVED = require('./fisher_records_received');
 const MONITOR_RECORDS_RECEIVED = require('./monitor_records_received')
 const FISHER_DISPLAYED_PROFIT = require('./fisher_displayed_profit_check')
+const CATCH_QUANITY_CHECK = require('./catch_quanity_check')
 
 var total_errors = 0;
 var tests_run = 0;
@@ -122,7 +123,15 @@ function fisherTests(client, log, startdate, enddate, callback){
           if (errors_3 != 0){
             tests_failed += 1
           }
-          callback(returned_text + returned_text_2 + returned_text_3 + returned_text_4, errors_1 + errors_2 + errors_3)
+          CATCH_QUANITY_CHECK.runTest(client, startdate, enddate, function(returned_text_5, errors_4){
+            tests_run += 1;
+            returned_text_5 += dashline
+            if (errors_4 != 0){
+              tests_failed += 1
+            }
+            callback(returned_text + returned_text_2 + returned_text_3 + returned_text_4 + returned_text_5, errors_1 + errors_2 + errors_3 + errors_4)
+          })
+
         })
 
       })

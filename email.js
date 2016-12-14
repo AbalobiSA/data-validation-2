@@ -15,7 +15,7 @@ var transporter = nodemailer.createTransport({
     var mailOptions = {
         from: process.env.EMAIL_SENDER_USER, // sender address
         to: process.env.EMAIL_RECEIVER, // list of receivers
-        subject: subject, // Subject line
+        subject: "Abalobi Validation Report- " + subject, // Subject line
         text: body
     };
 
