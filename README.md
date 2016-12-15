@@ -48,4 +48,6 @@ Checks whether when a catch is submitted all the quantities add up correctly suc
 
 ###Monitor Tests
 
+!! Monitor Tests Are Currently commented out and will not execute.
+
 Checks whether any records were recieved in the given timespan. This test will only be run if the day on which If no records are received the test will **FAIL** and no further monitor tests will be run. If any records are received the test will **PASS** and further tests are run on the records.

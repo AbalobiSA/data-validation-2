@@ -65,12 +65,13 @@ pg.connect(DB_URL , function(err, client) {
   //fisher tests are run where after email is send
   fisherTests(client, log, startdate, enddate, function(test_logs, errors){
 
+    //monitor tests currently commented out
     log += test_logs
 
-    monitorTests(client, log, startdate, enddate, function(test_logs){
+//    monitorTests(client, log, startdate, enddate, function(test_logs){
 
       total_errors += errors
-      log += test_logs
+//      log += test_logs
       var finsishTime = new Date()
       console.log("Job Finished at: " + finsishTime.toISOString() + "\n\n")
       log += "Job Finished at: " + finsishTime + "\n\n"
@@ -94,7 +95,7 @@ pg.connect(DB_URL , function(err, client) {
       email.send_report(log, job_subject, function(){
         client.end();
       })
-    })
+//    })
   })
 });
 
