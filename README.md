@@ -13,6 +13,16 @@ You will have to be logged into heroku to do this!
 
 Runs with `heroku local:run npm start`. If no arguments are specified by default all the tests will be ran by pulling records from the last 24 hours ending at the time of start. If a test needs to be run between a specific start and end date this can be specified by using this format: `heroku local:run npm start "YYYY-MM-DD" "YYYY-MM-DD"` The first argument specifies the start date and the second the end date. Note that the dates must be in quotes and be in the 'YYYY-MM-DD' format and that the arguments are not seperated by any commas.
 
+
+##Schedule, Logging And E-mail Reports
+
+Currently the script is set using the Heroku scheduler which only starts up the script at certain time thus only using the dyno's when running this job. This job is fired daily at the time specified **(Note that time is UTC)**
+
+As heroku does not have very extensive logging capabilities a heroku add-on called **Papertrail** is used to record logs. On the free plan Papertrail keeps all logs written to console for 48 hours. After that all logs are compressed into an archive which stores all logs of the last 7 days. Thus no logs older than that date is view able. To see these logs: In heroku under our app's overview tab there is a table of all our added add-on's. If the Papertrail button is clicked it will redirect to the Papertrail dash board where all logs are visible.
+
+When the job is executed an e-mail report is send to designated e-mail addresses specified in the heroku config variables.
+
+
 ###Fisher Tests
 
 #### Test 1: Records Received
