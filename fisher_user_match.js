@@ -10,8 +10,6 @@
 // var dashline="===================";
 // var log = "";
 
-// var DB_URL = "postgres://eaveeikumjabqn:HoOE8hCrYllmUdWI_fwNyi_NN0@ec2-54-247-98-197.eu-west-1.compute.amazonaws.com:5432/d1qik232pvmso9";
-
 // pg.defaults.ssl = true;
 // pg.connect(DB_URL, function(err, client) {
 
