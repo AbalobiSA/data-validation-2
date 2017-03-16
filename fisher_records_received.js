@@ -12,8 +12,8 @@ module.exports = {
     var dashline = "--------------------------\n\n"
 
 
-    console.log("Fisher Tests:\n\nTest 1: Fisher Trip Records Received Test:");
-    LogString += "Fisher Tests:\n" + dashline + "Test 1: Fisher Trip Records Received Test:\n"
+    console.log("Fisher Tests:\n\nTest 1: Were Fisher Trip records received: ");
+    LogString += "Fisher Tests:\n" + dashline + "Test 1: Were Fisher Trip records received: \n"
 
 
     //query the postgres database for fisher trips between start date and end date given, returns logging info
@@ -21,13 +21,13 @@ module.exports = {
     .query('SELECT * FROM salesforce.ablb_fisher_trip__c WHERE lastmodifieddate BETWEEN \'' + startdate + '\' AND \'' + enddate + '\'')
     .on('end', function(result) {
       if (result.rowCount > 0){
-        console.log(result.rowCount + " Records Received - Test PASSED\n");
-        LogString += result.rowCount + " Records Received - Test PASSED\n";
+        console.log(result.rowCount + " records received - Test PASSED\n");
+        LogString += result.rowCount + " records received - Test PASSED\n";
         success(LogString);
       }
       else{
-        console.log("No Records Received - Test FAILED \n");
-        LogString += "No Records Received - Test FAILED \n";
+        console.log("No records received - Test FAILED \n");
+        LogString += "No records received - Test FAILED \n";
         error(LogString)
       }
     })

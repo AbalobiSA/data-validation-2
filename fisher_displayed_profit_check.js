@@ -10,8 +10,8 @@ module.exports = {
     var errors = 0
     var LogString = "";
 
-    console.log("Test 4: Displayed Profit Check: ");
-    LogString += "Test 4: Displayed Profit Check: \n"
+    console.log("Test 4: Displayed Profit matches actual profit: ");
+    LogString += "Test 4: Displayed Profit matches actual profit: \n"
 
     //query all trips within given time period
     client

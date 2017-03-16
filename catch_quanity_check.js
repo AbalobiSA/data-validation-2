@@ -56,24 +56,25 @@ module.exports = {
       var valid = true
 
       //handle sold to coop
+      //Note: -0.00000001 is to avoid floating point (decimal) rounding issues
       switch(each_catch.coop_price_type__c) {
 
         case 'per_item':
-        if (each_catch.num_items__c != (each_catch.alloc_coop_number__c + each_catch.alloc_self_number__c + each_catch.alloc_sold_number__c)){
+        if (each_catch.num_items__c <  (-0.00000001 + each_catch.alloc_coop_number__c + each_catch.alloc_self_number__c + each_catch.alloc_sold_number__c)){
           valid = false
           break;
         }
         else break;
 
         case 'per_kg':
-        if (each_catch.weight_kg__c != (each_catch.alloc_coop_weight_kg__c + each_catch.alloc_self_weight_kg__c + each_catch.alloc_weight_kg__c)){
+        if (each_catch.weight_kg__c <  (-0.00000001 + each_catch.alloc_coop_weight_kg__c + each_catch.alloc_self_weight_kg__c + each_catch.alloc_weight_kg__c)){
           valid = false
           break;
         }
         else break;
 
         case 'per_crate':
-        if (each_catch.num_crates__c != (each_catch.alloc_coop_crates__c + each_catch.alloc_self_crates__c + each_catch.alloc_sold_crates__c)){
+        if (each_catch.num_crates__c <  (-0.00000001 + each_catch.alloc_coop_crates__c + each_catch.alloc_self_crates__c + each_catch.alloc_sold_crates__c)){
           valid = false
           break;
         }
@@ -87,21 +88,21 @@ module.exports = {
       switch(each_catch.other_price_type__c) {
 
         case 'per_item':
-        if (each_catch.num_items__c != (each_catch.alloc_coop_number__c + each_catch.alloc_self_number__c + each_catch.alloc_sold_number__c)){
+        if (each_catch.num_items__c <  (-0.00000001 + each_catch.alloc_coop_number__c + each_catch.alloc_self_number__c + each_catch.alloc_sold_number__c)){
           valid = false
           break;
         }
         else break;
 
         case 'per_kg':
-        if (each_catch.weight_kg__c != (each_catch.alloc_coop_weight_kg__c + each_catch.alloc_self_weight_kg__c + each_catch.alloc_weight_kg__c)){
+        if (each_catch.weight_kg__c <  (-0.00000001 + each_catch.alloc_coop_weight_kg__c + each_catch.alloc_self_weight_kg__c + each_catch.alloc_weight_kg__c)){
           valid = false
           break;
         }
         else break;
 
         case 'per_crate':
-        if (each_catch.num_crates__c != (each_catch.alloc_coop_crates__c + each_catch.alloc_self_crates__c + each_catch.alloc_sold_crates__c)){
+        if (each_catch.num_crates__c <  (-0.00000001 + each_catch.alloc_coop_crates__c + each_catch.alloc_self_crates__c + each_catch.alloc_sold_crates__c)){
           valid = false
           break;
         }

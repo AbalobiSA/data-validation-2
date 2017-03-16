@@ -9,8 +9,8 @@ module.exports = {
     var LogString = "";
     var dashline = "--------------------------\n\n"
 
-    console.log("Monitor Tests: \n\nTest 1: Monitor Day Records Received Test:")
-    LogString += "Monitor Tests: \n"  + dashline + "Test 1: Monitor Day Records Received Test:\n"
+    console.log("Monitor Tests: \n\nTest 1: Monitor Day records were received:")
+    LogString += "Monitor Tests: \n"  + dashline + "Test 1: Monitor Day records were received:\n"
 
     //get today's date and then get the current day from the date
     var current_timestamp = new Date();

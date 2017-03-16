@@ -43,8 +43,8 @@ function runTest(client, startdate, enddate, callback) {
     //variable that stores all logging info for individual job
     var LogString = "";
 
-    console.log("Test 2: Fisher Trip Username Match Test:");
-    LogString += "Test 2: Fisher Trip Username Match Test:\n"
+    console.log("Test 2: Submiting username matches main_fisher:");
+    LogString += "Test 2: Submiting username matches main_fisher:\n"
 
 
 
@@ -57,13 +57,13 @@ function runTest(client, startdate, enddate, callback) {
             users_from_trips.push(row);
             //	console.log(row.sfid)
             //console.log(row.main_fisher_id__c + " " + row.user_id__c )
-            /*	
+            /*
 
             	Trip Data:
             	main_fisher_id__c
             	user_id__c
             	sfid
-            	
+
             	Users Data:
             	username
             	abalobi_id__c
@@ -91,15 +91,15 @@ function runTest(client, startdate, enddate, callback) {
                     for (row in users) {
                         //check if the trip's user corresponds to correct abalobi ID and username
 
-                        //If the main fisher ID matches any user ID, 
+                        //If the main fisher ID matches any user ID,
                         //AND the user ID from the trip matches any Username
                         if (users[row].abalobi_id__c == users_from_trips[person].main_fisher_id__c && users[row].username == users_from_trips[person].user_id__c) {
                             match = true
-                        } 
+                        }
                         else if (users[row].username == users_from_trips[person].user_id__c && users[row].abalobi_usertype__c.includes("fisher_manager")){
                         	match = true;
                         	// console.log("MANAGER FOUND");
-                        }	
+                        }
                         // else if (((users[row].abalobi_usertype__c).includes("fisher_manager"))){
                         // 	match = true;
                         // }
@@ -109,9 +109,9 @@ function runTest(client, startdate, enddate, callback) {
                     if (match == false) {
                         console.log("\nError @ sfID " + users_from_trips[person].sfid
                         	+ "\nTrip Fisher ID: " + users_from_trips[person].main_fisher_id__c
-                        	+ "\nDoes not match Trip User ID: " + users_from_trips[person].user_id__c 
+                        	+ "\nDoes not match Trip User ID: " + users_from_trips[person].user_id__c
                         	// + "\nSalesforce Username: " + users[row].username
-                        	// + "\nUsertype of logger: " + users[row].abalobi_usertype__c 
+                        	// + "\nUsertype of logger: " + users[row].abalobi_usertype__c
                         	+ "\n");
                         LogString += "Error @ sfID " + users_from_trips[person].sfid + " https://eu5.salesforce.com/" + users_from_trips[person].sfid + '\n'
                         errors++;

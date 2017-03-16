@@ -11,8 +11,8 @@ module.exports = {
 		var errors = 0;
 		var LogString = "";
 
-		console.log("Test 3: Fisher Trip Children Expected Match Test: ");
-		LogString += "Test 3: Fisher Trip Children Expected Match Test: \n"
+		console.log("Test 3: All Catch records for each Fisher Trip are in SF: ");
+		LogString += "Test 3: All Catch records for each Fisher Trip are in SF: \n"
 
 		//query relevant fields from postgresdb
 		client

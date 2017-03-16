@@ -8,6 +8,7 @@ const FISHER_RECORDS_RECEIVED = require('./fisher_records_received');
 const MONITOR_RECORDS_RECEIVED = require('./monitor_records_received')
 const FISHER_DISPLAYED_PROFIT = require('./fisher_displayed_profit_check')
 const CATCH_QUANITY_CHECK = require('./catch_quanity_check')
+const STR_NO_RECORDS_RECEIVED = "No Records Received - No Further Fisher Tests Run"
 
 var total_errors = 0;
 var tests_run = 0;
@@ -92,6 +93,9 @@ pg.connect(DB_URL , function(err, client) {
       else{
         job_subject = "All OK"
       }
+      if (test_logs == STR_NO_RECORDS_RECEIVED){
+        job_subject += " (NO TRIPS RECEIVED)"
+      }
       email.send_report(log, job_subject, function(){
         client.end();
       })
@@ -141,8 +145,8 @@ function fisherTests(client, log, startdate, enddate, callback){
     total_errors +=1;
     tests_run += 1;
     tests_failed +=1;
-    console.log("No Records Received - No Further Fisher Tests Run");
-    callback( "No Records Received - No Further Fisher Tests Run" )
+    console.log(STR_NO_RECORDS_RECEIVED);
+    callback( STR_NO_RECORDS_RECEIVED )
   })
 }
 
