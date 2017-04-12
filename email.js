@@ -1,33 +1,70 @@
-module.exports = {
+/*============================================================================
+    Validation Mailer Module
+ ============================================================================*/
 
-    send_report : function(body, subject, callback){
+var nodemailer = require('nodemailer');
 
-        var nodemailer = require('nodemailer');
+/*============================================================================
+    Configuration
+ ============================================================================*/
 
-        var transporter = nodemailer.createTransport({
-            service: 'Gmail',
-            auth: {
-                user: process.env.EMAIL_SENDER_USER, // Your email id
-                pass: process.env.EMAIL_SENDER_PASS // Your password
-            }
-        });
-
-        var mailOptions = {
-            from: process.env.EMAIL_SENDER_USER, // sender address
-            to: process.env.EMAIL_RECEIVER, // list of receivers
-            subject: "Abalobi Validation Report - " + subject, // Subject line
-            text: body
-        };
-
-        transporter.sendMail(mailOptions, function(error, info){
-            if(error){
-                console.log(error);
-                callback()
-            }else{
-                console.log('Message sent: ' + info.response);
-                callback()
-            }
-        });
-
+var smtpConfig = {
+    host: process.env.EMAIL_SMTP_HOST,
+    port: 587,
+    secure: false, // use SSL
+    auth: {
+        user: process.env.EMAIL_SMTP_SENDER,
+        pass: process.env.EMAIL_SMTP_PASSWORD
+    },
+    tls: {
+        rejectUnauthorized:false
     }
+};
+
+/*============================================================================
+    Functions
+ ============================================================================*/
+
+function send_report(body, subject, callback){
+
+    var transporter;
+
+
+    if (process.env.USE_GMAIL_ACCOUNT){
+        transporter = nodemailer.createTransport({
+            service: 'gmail',
+            auth: {
+                user: process.env.EMAIL_SENDER_USER,
+                pass: process.env.EMAIL_SENDER_PASS
+            }
+        });
+    } else{
+        transporter = nodemailer.createTransport(smtpConfig);
+    }
+
+    var mailOptions = {
+        from: process.env.EMAIL_SMTP_SENDER, // sender address
+        to: process.env.EMAIL_RECEIVER, // list of receivers
+        subject: "Abalobi Validation Report - " + subject, // Subject line
+        text: body
+    };
+
+    transporter.sendMail(mailOptions, function(error, info){
+        if(error){
+            console.log(error);
+            callback()
+        }else{
+            console.log('Message sent: ' + info.response);
+            callback()
+        }
+    });
+
+}
+
+/*============================================================================
+    Exports
+ ============================================================================*/
+
+module.exports = {
+    send_report: send_report
 };
