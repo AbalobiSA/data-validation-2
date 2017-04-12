@@ -3,7 +3,7 @@ Daily data validation scripts which send an e-mail report
 
 
 
-##Setup and Running Locally
+## Setup and Running Locally
 
 import heroku config variables as follow:
 
@@ -14,7 +14,7 @@ You will have to be logged into heroku to do this!
 Runs with `heroku local:run npm start`. If no arguments are specified by default all the tests will be ran by pulling records from the last 24 hours ending at the time of start. If a test needs to be run between a specific start and end date this can be specified by using this format: `heroku local:run npm start "YYYY-MM-DD" "YYYY-MM-DD"` The first argument specifies the start date and the second the end date. Note that the dates must be in quotes and be in the 'YYYY-MM-DD' format and that the arguments are not seperated by any commas.
 
 
-##Schedule, Logging And E-mail Reports
+## Schedule, Logging And E-mail Reports
 
 Currently the script is set using the Heroku scheduler which only starts up the script at certain time thus only using the dyno's when running this job. This job is fired daily at the time specified **(Note that time is UTC)**
 
@@ -23,7 +23,7 @@ As heroku does not have very extensive logging capabilities a heroku add-on call
 When the job is executed an e-mail report is send to designated e-mail addresses specified in the heroku config variables.
 
 
-###Fisher Tests
+### Fisher Tests
 
 #### Test 1: Records Received
 
@@ -46,7 +46,7 @@ Checks whether when a trip is submited the displayed profit is equal to the calc
 
 Checks whether when a catch is submitted all the quantities add up correctly such for example if the catch is measured in per kg the total weight in kg will add up to the total weight allocated to coop, self and sold to other.
 
-###Monitor Tests
+### Monitor Tests
 
 !! Monitor Tests Are Currently commented out and will not execute.
 
