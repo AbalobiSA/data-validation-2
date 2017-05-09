@@ -52,7 +52,7 @@ function send_report(body, subject, callback){
     };
 
     transporter.sendMail(mailOptions, function(error, info){
-        console.log(`Email Sender: Sending message to ${mailOptions.to}`);
+        console.log("Email Sender: Sending message to: " + mailOptions.to.toString());
         if(error){
             console.log(error);
             callback()
