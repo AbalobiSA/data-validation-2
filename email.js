@@ -3,6 +3,7 @@
  ============================================================================*/
 
 var nodemailer = require('nodemailer');
+// var fs = require("fs");
 
 /*============================================================================
     Configuration
@@ -29,8 +30,8 @@ function send_report(body, subject, callback){
 
     var transporter;
 
-
-    if (process.env.USE_GMAIL_ACCOUNT){
+    if (process.env.USE_GMAIL_ACCOUNT === true){
+        console.log("USING GMAIL ACCOUNT!");
         transporter = nodemailer.createTransport({
             service: 'gmail',
             auth: {
@@ -39,6 +40,7 @@ function send_report(body, subject, callback){
             }
         });
     } else{
+        console.log("USING SMTP ACCOUNT!");
         transporter = nodemailer.createTransport(smtpConfig);
     }
 
@@ -58,7 +60,6 @@ function send_report(body, subject, callback){
             callback()
         }
     });
-
 }
 
 /*============================================================================
