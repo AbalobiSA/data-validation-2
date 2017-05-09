@@ -2,14 +2,14 @@
     Validation Mailer Module
  ============================================================================*/
 
-var nodemailer = require('nodemailer');
+const nodemailer = require('nodemailer');
 // var fs = require("fs");
 
 /*============================================================================
     Configuration
  ============================================================================*/
 
-var smtpConfig = {
+let smtpConfig = {
     host: process.env.EMAIL_SMTP_HOST,
     port: 587,
     secure: false, // use SSL
@@ -28,7 +28,7 @@ var smtpConfig = {
 
 function send_report(body, subject, callback){
 
-    var transporter;
+    let transporter;
 
     if (process.env.USE_GMAIL_ACCOUNT === true){
         console.log("USING GMAIL ACCOUNT!");
@@ -44,7 +44,7 @@ function send_report(body, subject, callback){
         transporter = nodemailer.createTransport(smtpConfig);
     }
 
-    var mailOptions = {
+    let mailOptions = {
         from: process.env.EMAIL_SMTP_SENDER, // sender address
         to: process.env.EMAIL_RECEIVER, // list of receivers
         subject: "Abalobi Validation Report - " + subject, // Subject line
