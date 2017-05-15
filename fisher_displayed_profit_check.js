@@ -37,24 +37,24 @@ module.exports = {
                 //NB please not how iterator is used! Ensures for loop works sync and not async!
                 console.log("ITERATING THROUGH TRIPS...");
                 for (entry in trips){
-                    console.log("Entered for loop");
+                    // console.log("Entered for loop");
 
                     //query all catches where parent uuid is that of current trip
                     let query = 'SELECT * FROM salesforce.ablb_fisher_catch__c WHERE odk_parent_uuid__c = \'' + trips[entry].odk_uuid__c + '\'';
-                    let iterator = 0;
+                    var iterator = 0;
 
                     client
                         .query(query)
                         .on('row', function(row){
-                            console.log("entered rows");
+                            // console.log("entered rows");
                             income(row, function(returned_income){
                                 total_income += returned_income;
                             })
                         })
                         .on('end', function(result) {
 
-                            //if the trips has any costs calculate the total costs
-                            if (trips[iterator].cost_has__c == 'yes'){
+                            // if the trips has any costs calculate the total costs
+                            if (trips[iterator].cost_has__c === 'yes'){
 
                                 total_cost += trips[iterator].cost_bait__c;
                                 total_cost += trips[iterator].cost_food__c;
@@ -69,7 +69,7 @@ module.exports = {
                             let profit = total_income - total_cost;
 
                             //if the profit is not equal to displayed profit flag error and handle all faketrips
-                            if (profit != trips[iterator].displayed_profit__c && !((trips[iterator].odk_uuid__c).includes("faketrip"))  ){
+                            if (profit != trips[iterator].displayed_profit__c && !((trips[iterator].odk_uuid__c).includes("faketrip"))){
                                 console.log("Error @ sfID " + trips[iterator].sfid  );
                                 LogString += "Error @ sfID " + trips[iterator].sfid + " https://eu5.salesforce.com/" + trips[iterator].sfid + '\n';
                                 errors++;
@@ -80,9 +80,9 @@ module.exports = {
                             total_income = 0;
                             iterator++;
 
-                            console.log("TRIPS LENGTH: " + trips.length + "" +
-                                "\nITERATOR VALUE: " + iterator + "" +
-                                "\n");
+                            // console.log("TRIPS LENGTH: " + trips.length + "" +
+                            //     "\nITERATOR VALUE: " + iterator + "" +
+                            //     "\n");
 
                             //if for loop is complete
                             if (iterator == trips.length){

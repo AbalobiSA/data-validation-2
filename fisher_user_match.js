@@ -107,15 +107,13 @@ function runTest(client, startdate, enddate, callback) {
                     }
                     //if there is no match and the usertype is not a fisher_manager, output which user is incorrect and increment the total amount not found
                     if (match == false) {
-                        console.log("\nError @ sfID " + users_from_trips[person].sfid
-                        	+ "\nTrip Fisher ID: " + users_from_trips[person].main_fisher_id__c
-                        	+ "\nDoes not match Trip User ID: " + users_from_trips[person].user_id__c
-                        	// + "\nSalesforce Username: " + users[row].username
-                        	// + "\nUsertype of logger: " + users[row].abalobi_usertype__c
-                        	+ "\n");
-                        LogString += "Error @ sfID " + users_from_trips[person].sfid + " https://eu5.salesforce.com/" + users_from_trips[person].sfid + '\n' +
-                            'Trip Fisher ID:' + users_from_trips[person].main_fisher_id__c + "" +
-                            "\nDoes not match Trip User ID: " + users_from_trips[person].user_id__c + "" +
+                        console.log("Error:  [Username]: " + users_from_trips[person].user_id__c + " [main_fisher_id]: "
+                            + users_from_trips[person].main_fisher_id__c + "        @ sfID " + users_from_trips[person].sfid
+                            + " https://eu5.salesforce.com/" + users_from_trips[person].sfid + '\n' +
+                            "\n");
+                        LogString += "Error:  [Username]: " + users_from_trips[person].user_id__c + " [main_fisher_id]: "
+                            + users_from_trips[person].main_fisher_id__c + "        @ sfID " + users_from_trips[person].sfid
+                            + " https://eu5.salesforce.com/" + users_from_trips[person].sfid + '\n' +
                             "\n";
                         errors++;
                     }
