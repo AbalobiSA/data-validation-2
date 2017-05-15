@@ -32,10 +32,12 @@ let currentdate = new Date();
 let yesterday = new Date();
 yesterday.setDate(yesterday.getDate() - 1);
 
+let startdate, enddate;
+
 //if valid argument are entered set them as the start and end date in the query's of the Tests
 if (process.argv[2] != undefined || process.argv[3] != undefined) {
-    let startdate = new Date(process.argv[2]);
-    let enddate = new Date(process.argv[3]);
+    startdate = new Date(process.argv[2]);
+    enddate = new Date(process.argv[3]);
     startdate = startdate.toISOString();
     enddate = enddate.toISOString();
     console.log("Range Date Specified.\nRunning Tests for records between " + startdate + " and " + enddate + " (time in UTC)\n");
@@ -46,8 +48,8 @@ if (process.argv[2] != undefined || process.argv[3] != undefined) {
  //start date to 24h before the start date. i.e. will run query for last 24 hours
  */
 else {
-    let startdate = yesterday;
-    let enddate = currentdate;
+    startdate = yesterday;
+    enddate = currentdate;
     startdate = startdate.toISOString();
     enddate = enddate.toISOString();
     console.log("No Date Range Specified - Defaulting to the last 24h.\nRunning Tests for records between " + startdate + " and " + enddate + " (time in UTC)\n");
