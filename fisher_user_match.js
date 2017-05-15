@@ -1,14 +1,14 @@
 // const pg = require('pg');
-// var defaultClient = new pg.Client();
+// let defaultClient = new pg.Client();
 
-// var defaultStartDate = new Date("2017-01-24");
-// var defaultEndDate = new Date('2017-01-26');
+// let defaultStartDate = new Date("2017-01-24");
+// let defaultEndDate = new Date('2017-01-26');
 
 // defaultStartDate = defaultStartDate.toISOString();
 // defaultEndDate = defaultEndDate.toISOString();
 
-// var dashline="===================";
-// var log = "";
+// let dashline="===================";
+// let log = "";
 
 // pg.defaults.ssl = true;
 // pg.connect(DB_URL, function(err, client) {
@@ -18,9 +18,9 @@
 //     log += ('Connected to postgres succesfully \n\n' + dashline);
 
 //     //fisher tests are run where after email is send
-//     runTest(client, defaultStartDate, defaultEndDate, function(var1, var2){
-//     	console.log(var1);
-//     	console.log(var2);
+//     runTest(client, defaultStartDate, defaultEndDate, function(let1, let2){
+//     	console.log(let1);
+//     	console.log(let2);
 
 //     })
 
@@ -34,17 +34,17 @@
 
 function runTest(client, startdate, enddate, callback) {
 
-    var users = [];
-    var users_from_trips = [];
-    var row;
-    var person;
-    var errors = 0;
+    let users = [];
+    let users_from_trips = [];
+    let row;
+    let person;
+    let errors = 0;
 
-    //variable that stores all logging info for individual job
-    var LogString = "";
+    //letiable that stores all logging info for individual job
+    let LogString = "";
 
     console.log("Test 2: Submiting username matches main_fisher:");
-    LogString += "Test 2: Submiting username matches main_fisher:\n"
+    LogString += "Test 2: Submiting username matches main_fisher:\n";
 
 
 
@@ -74,7 +74,7 @@ function runTest(client, startdate, enddate, callback) {
         //when the rows have been finished output how many trips were made in the last 24h
         .on('end', function(result) {
             console.log(result.rowCount + ' records were received');
-            LogString += result.rowCount + ' records were received\n'
+            LogString += result.rowCount + ' records were received\n';
 
             //run another query to recieve all possible username and abalobi_id__c combinations from the database
             client
@@ -87,7 +87,7 @@ function runTest(client, startdate, enddate, callback) {
             .on('end', function(result) {
                 //scan the array of total users for a match for each of the users_from trip for a match
                 for (person in users_from_trips) {
-                    var match = false;
+                    let match = false;
                     for (row in users) {
                         //check if the trip's user corresponds to correct abalobi ID and username
 
@@ -113,18 +113,21 @@ function runTest(client, startdate, enddate, callback) {
                         	// + "\nSalesforce Username: " + users[row].username
                         	// + "\nUsertype of logger: " + users[row].abalobi_usertype__c
                         	+ "\n");
-                        LogString += "Error @ sfID " + users_from_trips[person].sfid + " https://eu5.salesforce.com/" + users_from_trips[person].sfid + '\n'
+                        LogString += "Error @ sfID " + users_from_trips[person].sfid + " https://eu5.salesforce.com/" + users_from_trips[person].sfid + '\n' +
+                            'Trip Fisher ID:' + users_from_trips[person].main_fisher_id__c + "" +
+                            "\nDoes not match Trip User ID: " + users_from_trips[person].user_id__c + "" +
+                            "\n";
                         errors++;
                     }
                 }
                 if (errors == 0) {
                     console.log("0 Errors - Test PASSED \n");
-                    LogString += "0 Errors - Test PASSED \n"
+                    LogString += "0 Errors - Test PASSED \n";
                     callback(LogString, errors);
                 } else {
                     //output the total amount of users who are a mismatch
                     console.log(errors + " Errors - Test FAILED \r\n");
-                    LogString += errors + " Errors - Test FAILED \n"
+                    LogString += errors + " Errors - Test FAILED \n";
                     callback(LogString, errors);
                 }
 
@@ -134,4 +137,4 @@ function runTest(client, startdate, enddate, callback) {
 
 module.exports = {
     runTest: runTest
-}
+};

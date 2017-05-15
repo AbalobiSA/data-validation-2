@@ -107,7 +107,7 @@ module.exports = {
                     LogString += "No successful trips found.";
                     callback(LogString, 0);
                 }
-                
+
             });
 
         //calculate total income of a catch handling different scenarios for price type
