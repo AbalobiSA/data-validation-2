@@ -10,32 +10,32 @@ const FISHER_DISPLAYED_PROFIT = require('./fisher_displayed_profit_check');
 const CATCH_QUANTITY_CHECK = require('./catch_quanity_check');
 const STR_NO_RECORDS_RECEIVED = "No Records Received - No Further Fisher Tests Run";
 
-var total_errors = 0;
-var tests_run = 0;
-var tests_failed = 0;
-var dashline = "-------------------------------------------------\n\n";
+let total_errors = 0;
+let tests_run = 0;
+let tests_failed = 0;
+let dashline = "-------------------------------------------------\n\n";
 
 //the subject of the email that will either be 'All okay' or 'some failed' depending on the outcome of tests
-var job_subject;
+let job_subject;
 
 //create a timestamp in UTC and create master log for tests
-var timestamp = new Date();
-var log = "Heroku validation job started at: " + timestamp + "\n\n";
+let timestamp = new Date();
+let log = "Heroku validation job started at: " + timestamp + "\n\n";
 console.log("Heroku validation job started at: " + timestamp + "\n\n");
 
-//create new postgres client and get postgres URL from heroku enviroment variable
-var client = new pg.Client();
-var DB_URL =  process.env.DATABASE_URL;
+//create new postgres client and get postgres URL from heroku enviroment letiable
+let client = new pg.Client();
+let DB_URL =  process.env.DATABASE_URL;
 //handle the time period between which the query searches.
 //if no time period specified default to last 24 hours
-var currentdate = new Date();
-var yesterday = new Date();
+let currentdate = new Date();
+let yesterday = new Date();
 yesterday.setDate(yesterday.getDate() - 1);
 
 //if valid argument are entered set them as the start and end date in the query's of the Tests
 if (process.argv[2] != undefined || process.argv[3] != undefined) {
-    var startdate = new Date(process.argv[2]);
-    var enddate = new Date(process.argv[3]);
+    let startdate = new Date(process.argv[2]);
+    let enddate = new Date(process.argv[3]);
     startdate = startdate.toISOString();
     enddate = enddate.toISOString();
     console.log("Range Date Specified.\nRunning Tests for records between " + startdate + " and " + enddate + " (time in UTC)\n");
@@ -46,8 +46,8 @@ if (process.argv[2] != undefined || process.argv[3] != undefined) {
  //start date to 24h before the start date. i.e. will run query for last 24 hours
  */
 else {
-    var startdate = yesterday;
-    var enddate = currentdate;
+    let startdate = yesterday;
+    let enddate = currentdate;
     startdate = startdate.toISOString();
     enddate = enddate.toISOString();
     console.log("No Date Range Specified - Defaulting to the last 24h.\nRunning Tests for records between " + startdate + " and " + enddate + " (time in UTC)\n");
@@ -73,7 +73,7 @@ pg.connect(DB_URL , function(err, client) {
 
         total_errors += errors;
 //      log += test_logs
-        var finsishTime = new Date();
+        let finsishTime = new Date();
         console.log("Job Finished at: " + finsishTime.toISOString() + "\n\n");
         log += "Job Finished at: " + finsishTime + "\n\n";
         console.log("Summary: ");
@@ -84,7 +84,7 @@ pg.connect(DB_URL , function(err, client) {
         log += "Tests Failed: " + tests_failed + "\n";
         console.log("Total Errors: " + total_errors);
         log += "Total Errors: " + total_errors + "\n";
-        var runtime = finsishTime.getTime() - timestamp.getTime();
+        let runtime = finsishTime.getTime() - timestamp.getTime();
         console.log("Runtime: " + runtime / 1000 + " seconds");
         log += "Runtime: " + runtime / 1000 + " seconds\n";
         if (total_errors != 0){
@@ -106,28 +106,32 @@ pg.connect(DB_URL , function(err, client) {
 //master fisher test function if records are received run all test else if first test fails
 //no other fisher tests will be run
 function fisherTests(client, log, startdate, enddate, callback){
-
+    console.log("Running fisher records received...");
     FISHER_RECORDS_RECEIVED.runTest(client, startdate, enddate,  function(returned_text){
         tests_run += 1;
         returned_text += dashline;
+        console.log("Running fisher user match...");
         FISHER_USER_MATCH.runTest(client, startdate, enddate,  function(returned_text_2,errors_1){
             tests_run += 1;
             returned_text_2 += dashline;
             if (errors_1 != 0){
                 tests_failed += 1
             }
+            console.log("Running fisher children match...");
             FISHER_CHILDREN_MATCH.runTest(client, startdate, enddate,  function(returned_text_3, errors_2){
                 tests_run += 1;
                 returned_text_3 += dashline;
                 if (errors_2 != 0){
                     tests_failed += 1
                 }
+                console.log("Running displayed profit match...");
                 FISHER_DISPLAYED_PROFIT.runTest(client, startdate, enddate, function(returned_text_4, errors_3){
                     tests_run += 1;
                     returned_text_4 += dashline;
                     if (errors_3 != 0){
                         tests_failed += 1
                     }
+                    console.log("Running quantity check match...");
                     CATCH_QUANTITY_CHECK.runTest(client, startdate, enddate, function(returned_text_5, errors_4){
                         tests_run += 1;
                         returned_text_5 += dashline;

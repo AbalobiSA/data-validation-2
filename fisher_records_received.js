@@ -8,8 +8,8 @@ module.exports = {
   runTest: function(client,  startdate, enddate, success, error){
 
     //initialize logging for every console.log
-    var LogString = "";
-    var dashline = "--------------------------\n\n"
+    let LogString = "";
+    let dashline = "--------------------------\n\n"
 
 
     console.log("Fisher Tests:\n\nTest 1: Were Fisher Trip records received: ");
