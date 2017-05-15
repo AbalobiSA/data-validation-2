@@ -81,9 +81,9 @@ module.exports = {
                             total_income = 0;
                             iterator++;
 
-                            console.log("TRIPS LENGTH: " + trips.length + "" +
-                                "\nITERATOR VALUE: " + iterator + "" +
-                                "\n");
+                            // console.log("TRIPS LENGTH: " + trips.length + "" +
+                            //     "\nITERATOR VALUE: " + iterator + "" +
+                            //     "\n");
 
                             //if for loop is complete
                             if (iterator == trips.length){
