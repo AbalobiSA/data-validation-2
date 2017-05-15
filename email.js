@@ -28,6 +28,8 @@ let smtpConfig = {
 
 function send_report(body, subject, callback){
 
+    console.log("SENDING EMAIL REPORT!");
+
     let transporter;
 
     if (process.env.USE_GMAIL_ACCOUNT === true){
