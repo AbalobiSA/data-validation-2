@@ -33,6 +33,7 @@ module.exports = {
                 //total income and expense per trip
                 let total_cost = 0;
                 let total_income = 0;
+                let iterator = 0;
 
                 //NB please not how iterator is used! Ensures for loop works sync and not async!
                 console.log("ITERATING THROUGH TRIPS...");
@@ -41,7 +42,7 @@ module.exports = {
 
                     //query all catches where parent uuid is that of current trip
                     let query = 'SELECT * FROM salesforce.ablb_fisher_catch__c WHERE odk_parent_uuid__c = \'' + trips[entry].odk_uuid__c + '\'';
-                    var iterator = 0;
+
 
                     client
                         .query(query)
@@ -80,9 +81,9 @@ module.exports = {
                             total_income = 0;
                             iterator++;
 
-                            // console.log("TRIPS LENGTH: " + trips.length + "" +
-                            //     "\nITERATOR VALUE: " + iterator + "" +
-                            //     "\n");
+                            console.log("TRIPS LENGTH: " + trips.length + "" +
+                                "\nITERATOR VALUE: " + iterator + "" +
+                                "\n");
 
                             //if for loop is complete
                             if (iterator == trips.length){
