@@ -122,28 +122,28 @@ function fisherTests(client, log, startDate, endDate, callback) {
         FISHER_USER_MATCH.runTest(client, startDate, endDate, (returnedText_2, errors_1) => {
             testsRun += 1;
             returnedText_2 += dashline;
-            testsFailed = errors_1 !== 0 ? testsFailed += 1 : testsFailed;
+            testsFailed = errors_1 !== 0 ? testsFailed + 1 : testsFailed;
 
             console.log(dashline + "\nRunning fisher children match...");
 
             FISHER_CHILDREN_MATCH.runTest(client, startDate, endDate, (returnedText_3, errors_2) => {
                 testsRun += 1;
                 returnedText_3 += dashline;
-                testsFailed = errors_2 !== 0 ? testsFailed += 1 : testsFailed;
+                testsFailed = errors_2 !== 0 ? testsFailed + 1 : testsFailed;
 
                 console.log(dashline + "\nRunning displayed profit match...");
 
                 FISHER_DISPLAYED_PROFIT.runTest(client, startDate, endDate, (returnedText_4, errors_3) => {
                     testsRun += 1;
                     returnedText_4 += dashline;
-                    testsFailed = errors_3 !== 0 ? testsFailed += 1 : testsFailed;
+                    testsFailed = errors_3 !== 0 ? testsFailed + 1 : testsFailed;
 
                     console.log(dashline + "\nRunning quantity check match...");
 
                     CATCH_QUANTITY_CHECK.runTest(client, startDate, endDate, (returnedText_5, errors_4) => {
                         testsRun += 1;
                         returnedText_5 += dashline;
-                        testsFailed = errors_4 !== 0 ? testsFailed += 1 : testsFailed;
+                        testsFailed = errors_4 !== 0 ? testsFailed + 1 : testsFailed;
 
                         callback(returnedText + returnedText_2 + returnedText_3 + returnedText_4 + returnedText_5, errors_1 + errors_2 + errors_3 + errors_4)
                     });
