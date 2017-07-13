@@ -92,9 +92,9 @@ salesforce.createConnection().then(client => {
             jobSubject += " (NO TRIPS RECEIVED)"
         }
 
-        // email.send_report(log, job_subject, () => {
-        //     client.end();
-        // });
+        email.send_report(log, jobSubject, () => {
+            console.log('Report sent ;)');
+        });
     });
 }).catch(err => {
     console.log(err);
