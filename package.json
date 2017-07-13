@@ -10,7 +10,8 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "nodemailer": "^3.1.7",
-    "jsforce": "^1.8.0"
+    "async": "^2.5.0",
+    "jsforce": "^1.8.0",
+    "nodemailer": "^3.1.7"
   }
 }
