@@ -67,7 +67,7 @@ salesforce.createConnection().then(client => {
         log += test_logs;
         total_errors += errors;
 
-        console.log("Job Finished at: " + finsishTime.toISOString() + "\n\n");
+        console.log(dashline + "\nJob Finished at: " + finsishTime.toISOString() + "\n\n");
         log += "Job Finished at: " + finsishTime + "\n\n";
         console.log("Summary: ");
         log += "Summary: \n";
@@ -107,28 +107,28 @@ function fisherTests(client, log, startdate, enddate, callback){
     FISHER_RECORDS_RECEIVED.runTest(client, startdate, enddate,  function(returned_text){
         tests_run += 1;
         returned_text += dashline;
-        console.log("Running fisher user match...");
+        console.log(dashline + "\nRunning fisher user match...");
         FISHER_USER_MATCH.runTest(client, startdate, enddate,  function(returned_text_2,errors_1){
             tests_run += 1;
             returned_text_2 += dashline;
             if (errors_1 != 0){
                 tests_failed += 1
             }
-            console.log("Running fisher children match...");
+            console.log(dashline + "\nRunning fisher children match...");
             FISHER_CHILDREN_MATCH.runTest(client, startdate, enddate,  function(returned_text_3, errors_2){
                 tests_run += 1;
                 returned_text_3 += dashline;
                 if (errors_2 != 0){
                     tests_failed += 1
                 }
-                console.log("Running displayed profit match...");
+                console.log(dashline + "\nRunning displayed profit match...");
                 FISHER_DISPLAYED_PROFIT.runTest(client, startdate, enddate, function(returned_text_4, errors_3){
                     tests_run += 1;
                     returned_text_4 += dashline;
                     if (errors_3 != 0){
                         tests_failed += 1
                     }
-                    console.log("Running quantity check match...");
+                    console.log(dashline + "\nRunning quantity check match...");
                     CATCH_QUANTITY_CHECK.runTest(client, startdate, enddate, function(returned_text_5, errors_4){
                         tests_run += 1;
                         returned_text_5 += dashline;
