@@ -3,34 +3,33 @@
  * if any records are recieved the test is passed and other tests are executed. If no records are recieved
  * the test fails and no other tests for fisher trips are done.
  * @param client
- * @param startdate
- * @param enddate
+ * @param startDate
+ * @param endDate
  * @param success
  * @param error
  */
-function runTest (client, startdate, enddate, success, error) {
+function runTest(client, startDate, endDate, success, error) {
 
-    //initialize logging for every console.log
-    let LogString = "";
+    // Initialize logging for every console.log
+    let logString = "";
     let dashline = "--------------------------\n\n";
 
     console.log("Fisher Tests:\n\nTest 1: Were Fisher Trip records received: ");
-    LogString += "Fisher Tests:\n" + dashline + "Test 1: Were Fisher Trip records received: \n";
+    logString += "Fisher Tests:\n" + dashline + "Test 1: Were Fisher Trip records received: \n";
 
     //query the postgres database for fisher trips between start date and end date given, returns logging info
-    let query = `SELECT Id FROM Ablb_Fisher_Trip__c WHERE LastModifiedDate >= ${startdate} AND LastModifiedDate < ${enddate}`;
+    let query = `SELECT Id FROM Ablb_Fisher_Trip__c WHERE LastModifiedDate >= ${startDate} AND LastModifiedDate < ${endDate}`;
     client.query(query, (err, result) => {
         if (err) {
-            console.log(err);
             error(err);
         } else if (result && result.totalSize > 0) {
             console.log(result.totalSize + " records received - Test PASSED\n");
-            LogString += result.totalSize + " records received - Test PASSED\n";
-            success(LogString);
+            logString += result.totalSize + " records received - Test PASSED\n";
+            success(logString);
         } else {
             console.log("No records received - Test FAILED \n");
-            LogString += "No records received - Test FAILED \n";
-            error(LogString)
+            logString += "No records received - Test FAILED \n";
+            error(logString)
         }
     });
 }

@@ -1,37 +1,37 @@
 /**
  * Function to run first check of validation
- * this check is to gurantee that the fisher who has submited data from a trip matches up with the username provided on the form.
+ * this check is to guarantee that the fisher who has submitted data from a trip matches up with the username provided on the form.
  * the only exception is a fisher_manager who is allowed to submit someone elses data
  * @param client
- * @param startdate
- * @param enddate
+ * @param startDate
+ * @param endDate
  * @param callback
  */
-function runTest(client, startdate, enddate, callback) {
+function runTest(client, startDate, endDate, callback) {
 
     let errors = 0;
 
     // letiable that stores all logging info for individual job
-    let LogString = "";
+    let logString = "";
 
     console.log("Test 2: Submiting username matches main_fisher:");
-    LogString += "Test 2: Submiting username matches main_fisher:\n";
+    logString += "Test 2: Submiting username matches main_fisher:\n";
 
-    //run a query on the database to pull the main_fisher_id__c and user_id__c fields from the trips table entered in the last 24h
-    let query = `SELECT main_fisher_id__c, user_id__c, Id FROM Ablb_Fisher_Trip__c WHERE LastModifiedDate >= ${startdate} AND LastModifiedDate < ${enddate}`;
+    // Run a query on the database to pull the main_fisher_id__c and user_id__c fields from the trips table entered in the last 24h
+    let query = `SELECT main_fisher_id__c, user_id__c, Id FROM Ablb_Fisher_Trip__c WHERE LastModifiedDate >= ${startDate} AND LastModifiedDate < ${endDate}`;
     client.query(query, (err, tripUsers) => {
         if (err) {
-            callback(LogString, err);
+            callback(logString, err);
         } else {
             console.log(tripUsers.totalSize + ' records were received');
-            LogString += tripUsers.totalSize + ' records were received\n';
+            logString += tripUsers.totalSize + ' records were received\n';
 
             query = `SELECT Username, abalobi_id__c, abalobi_usertype__c FROM User`;
             client.query(query, (err, users) => {
                 console.log(users.totalSize + ' records were received');
-                LogString += users.totalSize + ' records were received\n';
+                logString += users.totalSize + ' records were received\n';
 
-                //scan the array of total users for a match for each of the users_from trip for a match
+                // Scan the array of total users for a match for each of the users_from trip for a match
                 for (let i = 0 ; i < tripUsers.records.length; i = i + 1) {
                     let match = false;
                     for (let j = 0 ; j < users.records.length; j = j + 1) {
@@ -50,7 +50,7 @@ function runTest(client, startdate, enddate, callback) {
                             + tripUsers.records[i].main_fisher_id__c + "        @ sfID " + tripUsers.records[i].Id
                             + " https://eu5.salesforce.com/" + tripUsers[i].Id + '\n' +
                             "\n");
-                        LogString += "Error:  [Username]: " + tripUsers.records[i].user_id__c + " [main_fisher_id]: "
+                        logString += "Error:  [Username]: " + tripUsers.records[i].user_id__c + " [main_fisher_id]: "
                             + tripUsers.records[i].main_fisher_id__c + "        @ sfID " + tripUsers.records[i].Id
                             + " https://eu5.salesforce.com/" + tripUsers.records[i].Id + '\n' +
                             "\n";
@@ -61,13 +61,13 @@ function runTest(client, startdate, enddate, callback) {
 
                 if (errors === 0) {
                     console.log("0 Errors - Test PASSED \n");
-                    LogString += "0 Errors - Test PASSED \n";
-                    callback(LogString, errors);
+                    logString += "0 Errors - Test PASSED \n";
+                    callback(logString, errors);
                 } else {
-                    //output the total amount of users who are a mismatch
+                    // Output the total amount of users who are a mismatch
                     console.log(errors + " Errors - Test FAILED \r\n");
-                    LogString += errors + " Errors - Test FAILED \n";
-                    callback(LogString, errors);
+                    logString += errors + " Errors - Test FAILED \n";
+                    callback(logString, errors);
                 }
             });
         }

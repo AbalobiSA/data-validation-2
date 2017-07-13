@@ -1,5 +1,4 @@
-//load all the required packages/modules
-const pg = require('pg');
+// Load all the required packages/modules
 const fs = require('fs');
 
 const email = require('./email');
@@ -10,84 +9,87 @@ const FISHER_CHILDREN_MATCH = require('./fisher_children_match');
 const FISHER_RECORDS_RECEIVED = require('./fisher_records_received');
 const MONITOR_RECORDS_RECEIVED = require('./monitor_records_received');
 const FISHER_DISPLAYED_PROFIT = require('./fisher_displayed_profit_check');
-const CATCH_QUANTITY_CHECK = require('./catch_quanity_check');
+const CATCH_QUANTITY_CHECK = require('./catch_quantity_check');
 const STR_NO_RECORDS_RECEIVED = "No Records Received - No Further Fisher Tests Run";
 
-let total_errors = 0;
-let tests_run = 0;
-let tests_failed = 0;
+let totalErrors = 0;
+let testsRun = 0;
+let testsFailed = 0;
 let dashline = "-------------------------------------------------\n\n";
 
 // The subject of the email that will either be 'All okay' or 'some failed' depending on the outcome of tests
-let job_subject;
+let jobSubject;
 
 // Create a timestamp in UTC and create master log for tests
 let timestamp = new Date();
 let log = "Salesforce validation job started at: " + timestamp + "\n\n";
-console.log("Salesforce validation job started at: " + timestamp + "\n\n");
+console.log(log);
 
 // Handle the time period between which the query searches.
 // If no time period specified default to last 24 hours
-let currentdate = new Date();
+let currentDate = new Date();
 let yesterday = new Date();
 yesterday.setDate(yesterday.getDate() - 1);
 
-let startdate, enddate;
+let startDate, endDate;
 
-//if valid argument are entered set them as the start and end date in the query's of the Tests
+// If valid argument are entered set them as the start and end date in the query's of the Tests
 if (process.argv[2] !== undefined || process.argv[3] !== undefined) {
-    startdate = new Date(process.argv[2]);
-    enddate = new Date(process.argv[3]);
-    startdate = startdate.toISOString();
-    enddate = enddate.toISOString();
-    console.log("Range Date Specified.\nRunning Tests for records between " + startdate + " and " + enddate + " (time in UTC)\n");
-    log += "Range Date Specified.\nRunning Tests for records between " + startdate + " and " + enddate + ' (time in UTC)\n\n'
-}
+    startDate = new Date(process.argv[2]);
+    endDate = new Date(process.argv[3]);
+    startDate = startDate.toISOString();
+    endDate = endDate.toISOString();
 
-/*else if no date or invalid dates are given as arguments the end date will be set to the current time and the
- //start date to 24h before the start date. i.e. will run query for last 24 hours
- */
+    console.log("Range Date Specified.\nRunning Tests for records between " + startDate + " and " + endDate + " (time in UTC)\n");
+    log += "Range Date Specified.\nRunning Tests for records between " + startDate + " and " + endDate + ' (time in UTC)\n\n'
+}
+// Else if no date or invalid dates are given as arguments the end date will be set to the current time and the
+// start date to 24h before the start date. i.e. will run query for last 24 hours
 else {
-    startdate = yesterday;
-    enddate = currentdate;
-    startdate = startdate.toISOString();
-    enddate = enddate.toISOString();
-    console.log("No Date Range Specified - Defaulting to the last 24h.\nRunning Tests for records between " + startdate + " and " + enddate + " (time in UTC)\n");
-    log += "No Date Range Specified - Defaulting to the last 24h.\nRunning Tests for records between " + startdate + " and " + enddate + ' (time in UTC)\n\n'
+    startDate = yesterday;
+    endDate = currentDate;
+    startDate = startDate.toISOString();
+    endDate = endDate.toISOString();
+
+    console.log("No Date Range Specified - Defaulting to the last 24h.\nRunning Tests for records between " + startDate + " and " + endDate + " (time in +0:00 UTC)\n");
+    log += "No Date Range Specified - Defaulting to the last 24h.\nRunning Tests for records between " + startDate + " and " + endDate + ' (time in +0:00 UTC)\n\n'
 }
 
+/**
+ * Create a connection to Salesforce and start running the checks
+ */
 salesforce.createConnection().then(client => {
 
-    //fisher tests are run where after email is send
-    fisherTests(client, log, startdate, enddate, (test_logs, errors) => {
+    // Fisher tests are run where after email is send
+    fisherTests(client, log, startDate, endDate, (test_logs, errors) => {
 
-        let finsishTime = new Date();
-        let runtime = finsishTime.getTime() - timestamp.getTime();
+        let finishTime = new Date();
+        let runtime = finishTime.getTime() - timestamp.getTime();
 
         log += test_logs;
-        total_errors += errors;
+        totalErrors += errors;
 
-        console.log(dashline + "\nJob Finished at: " + finsishTime.toISOString() + "\n\n");
-        log += "Job Finished at: " + finsishTime + "\n\n";
+        console.log(dashline + "\nJob Finished at: " + finishTime.toISOString() + "\n");
+        log += "Job Finished at: " + finishTime + "\n\n";
         console.log("Summary: ");
         log += "Summary: \n";
-        console.log("Tests Run: " + tests_run);
-        log += "Tests Run: " + tests_run + "\n";
-        console.log("Tests Failed: " + tests_failed);
-        log += "Tests Failed: " + tests_failed + "\n";
-        console.log("Total Errors: " + total_errors);
-        log += "Total Errors: " + total_errors + "\n";
+        console.log("Tests Run: " + testsRun);
+        log += "Tests Run: " + testsRun + "\n";
+        console.log("Tests Failed: " + testsFailed);
+        log += "Tests Failed: " + testsFailed + "\n";
+        console.log("Total Errors: " + totalErrors);
+        log += "Total Errors: " + totalErrors + "\n";
         console.log("Runtime: " + runtime / 1000 + " seconds");
         log += "Runtime: " + runtime / 1000 + " seconds\n";
 
-        if (total_errors !== 0){
-            job_subject = "Some Failed"
+        if (totalErrors !== 0) {
+            jobSubject = "Some Failed"
         } else {
-            job_subject = "All OK"
+            jobSubject = "All OK"
         }
 
-        if (test_logs === STR_NO_RECORDS_RECEIVED){
-            job_subject += " (NO TRIPS RECEIVED)"
+        if (test_logs === STR_NO_RECORDS_RECEIVED) {
+            jobSubject += " (NO TRIPS RECEIVED)"
         }
 
         // email.send_report(log, job_subject, () => {
@@ -100,67 +102,83 @@ salesforce.createConnection().then(client => {
     process.exit(1);
 });
 
-// Master fisher test function if records are received run all test else if first test fails
-// no other fisher tests will be run
-function fisherTests(client, log, startdate, enddate, callback){
-    console.log("Running fisher records received...");
-    FISHER_RECORDS_RECEIVED.runTest(client, startdate, enddate,  function(returned_text){
-        tests_run += 1;
-        returned_text += dashline;
-        console.log(dashline + "\nRunning fisher user match...");
-        FISHER_USER_MATCH.runTest(client, startdate, enddate,  function(returned_text_2,errors_1){
-            tests_run += 1;
-            returned_text_2 += dashline;
-            if (errors_1 != 0){
-                tests_failed += 1
-            }
+/**
+ * Master fisher test function if records are received run all test else if first test fails
+ * no other fisher tests will be run
+ * @param client
+ * @param log
+ * @param startDate
+ * @param endDate
+ * @param callback
+ */
+function fisherTests(client, log, startDate, endDate, callback) {
+    console.log(dashline + "Running fisher records received...");
+
+    FISHER_RECORDS_RECEIVED.runTest(client, startDate, endDate, (returnedText) => {
+        testsRun += 1;
+        returnedText += dashline;
+        console.log(dashline + "Running fisher user match...");
+
+        FISHER_USER_MATCH.runTest(client, startDate, endDate, (returnedText_2, errors_1) => {
+            testsRun += 1;
+            returnedText_2 += dashline;
+            testsFailed = errors_1 !== 0 ? testsFailed += 1 : testsFailed;
+
             console.log(dashline + "\nRunning fisher children match...");
-            FISHER_CHILDREN_MATCH.runTest(client, startdate, enddate,  function(returned_text_3, errors_2){
-                tests_run += 1;
-                returned_text_3 += dashline;
-                if (errors_2 != 0){
-                    tests_failed += 1
-                }
+
+            FISHER_CHILDREN_MATCH.runTest(client, startDate, endDate, (returnedText_3, errors_2) => {
+                testsRun += 1;
+                returnedText_3 += dashline;
+                testsFailed = errors_2 !== 0 ? testsFailed += 1 : testsFailed;
+
                 console.log(dashline + "\nRunning displayed profit match...");
-                FISHER_DISPLAYED_PROFIT.runTest(client, startdate, enddate, function(returned_text_4, errors_3){
-                    tests_run += 1;
-                    returned_text_4 += dashline;
-                    if (errors_3 != 0){
-                        tests_failed += 1
-                    }
+
+                FISHER_DISPLAYED_PROFIT.runTest(client, startDate, endDate, (returnedText_4, errors_3) => {
+                    testsRun += 1;
+                    returnedText_4 += dashline;
+                    testsFailed = errors_3 !== 0 ? testsFailed += 1 : testsFailed;
+
                     console.log(dashline + "\nRunning quantity check match...");
-                    CATCH_QUANTITY_CHECK.runTest(client, startdate, enddate, function(returned_text_5, errors_4){
-                        tests_run += 1;
-                        returned_text_5 += dashline;
-                        if (errors_4 != 0){
-                            tests_failed += 1
-                        }
-                        callback(returned_text + returned_text_2 + returned_text_3 + returned_text_4 + returned_text_5, errors_1 + errors_2 + errors_3 + errors_4)
-                    })
 
-                })
+                    CATCH_QUANTITY_CHECK.runTest(client, startDate, endDate, (returnedText_5, errors_4) => {
+                        testsRun += 1;
+                        returnedText_5 += dashline;
+                        testsFailed = errors_4 !== 0 ? testsFailed += 1 : testsFailed;
 
-            })
-        })
-    }, function(){
-        total_errors +=1;
-        tests_run += 1;
-        tests_failed +=1;
+                        callback(returnedText + returnedText_2 + returnedText_3 + returnedText_4 + returnedText_5, errors_1 + errors_2 + errors_3 + errors_4)
+                    });
+                });
+            });
+        });
+    }, () => {
+        totalErrors += 1;
+        testsRun += 1;
+        testsFailed += 1;
+
         console.log(STR_NO_RECORDS_RECEIVED);
-        callback( STR_NO_RECORDS_RECEIVED )
-    })
+        callback(STR_NO_RECORDS_RECEIVED)
+    });
 }
 
-function monitorTests(client, log, startdate, enddate, callback){
+/**
+ *
+ * @param client
+ * @param log
+ * @param startDate
+ * @param endDate
+ * @param callback
+ */
+function monitorTests(client, log, startDate, endDate, callback) {
 
-    MONITOR_RECORDS_RECEIVED.runTest(client, startdate, enddate,  function(returned_text){
-        tests_run += 1;
+    MONITOR_RECORDS_RECEIVED.runTest(client, startDate, endDate, returnedText => {
+        testsRun += 1;
         //run other tests
-        callback(returned_text + dashline)
-    },function(returned_text){
-        total_errors +=1;
-        tests_run +=1;
-        tests_failed +=1;
-        callback(returned_text + "No Further Monitor Tests Run\n\n" + dashline)
-    })
+        callback(returnedText + dashline)
+    }, returnedText => {
+        totalErrors += 1;
+        testsRun += 1;
+        testsFailed += 1;
+
+        callback(returnedText + "No Further Monitor Tests Run\n\n" + dashline)
+    });
 }
