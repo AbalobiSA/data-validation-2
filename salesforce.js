@@ -2,20 +2,12 @@
  * Created by Carl on 2017-05-24.
  */
 let jsforce = require('jsforce');
-let secrets;
-
-try {
-    secrets = require("./secrets/secrets.js");
-} catch (ex) {
-    console.log("./secrets/secrets.js - Secrets file does not exist! Please copy this in before continuing.");
-    process.exit();
-}
 
 function createQuery(queryString, success, error){
     let conn = new jsforce.Connection();
 
     console.log("Salesforce: Logging in...");
-    conn.login(secrets.SF_USER, secrets.SF_PASSWORD, function(err, res) {
+    conn.login(process.env.SALESFORCE_USERNAME, process.env.SALESFORCE_PWD, function(err, res) {
         if (err) {
             return console.error(err);
         }
@@ -39,7 +31,7 @@ function createQuery(queryString, success, error){
 function createSearch(queryString, success, error){
     let conn = new jsforce.Connection();
 
-    conn.login(secrets.SF_USER, secrets.SF_PASSWORD, function(err, res) {
+    conn.login(process.env.SALESFORCE_USERNAME, process.env.SALESFORCE_PWD, function(err, res) {
         if (err) {
             return console.error(err);
         }
@@ -69,7 +61,7 @@ function createConnection() {
     return new Promise((resolve, reject) => {
 
         // console.log("Salesforce: Logging in...");
-        conn.login(secrets.SF_USER, secrets.SF_PASSWORD, function(err, res) {
+        conn.login(process.env.SALESFORCE_USERNAME, process.env.SALESFORCE_PWD, function(err, res) {
             if (err) {
                 reject(err);
             } else {
@@ -82,7 +74,7 @@ function createConnection() {
 
 function update(table, updateobject, success, error) {
     let conn = new jsforce.Connection();
-    conn.login(secrets.SF_USER, secrets.SF_PASSWORD, function(err, res) {
+    conn.login(process.env.SALESFORCE_USERNAME, process.env.SALESFORCE_PWD, function(err, res) {
         if (err) {
             error(err);
             return console.error(err);
