@@ -17,7 +17,7 @@ function runTest(client, startDate, endDate, mainCallback) {
     logString += "Test 4: Displayed Profit matches actual profit: \n";
 
     // Query all trips within given time period
-    let query = `SELECT Id, odk_uuid__c, displayed_profit__c, cost_has__c, cost_bait__c, cost_food__c, cost_fuel__c,
+    let query = `SELECT Id, num_children_in_sf__c, odk_uuid__c, displayed_profit__c, cost_has__c, cost_bait__c, cost_food__c, cost_fuel__c,
      cost_harbour_fee__c, cost_oil__c, cost_other_amount__c, cost_transport__c 
      FROM Ablb_Fisher_Trip__c WHERE LastModifiedDate >= ${startDate} AND LastModifiedDate < ${endDate}`;
     client.query(query, (err, trips) => {
@@ -41,6 +41,11 @@ function runTest(client, startDate, endDate, mainCallback) {
 
                 if (err) {
                     return mainCallback(logString, err);
+                }
+
+                if (trip.num_children_in_sf__c === 0) {
+                    // The trip has no catches registered in salesforce so skip
+                    return callback();
                 }
 
                 let totalCost = 0;

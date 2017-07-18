@@ -25,7 +25,10 @@ function runTest(client, startDate, endDate, callback) {
         // if not equal flag a error at the relevant record's ID
         // Note: that if both fields are undefined it is not flagged as error
         for (let entry in result.records) {
-            if (result.records[entry].num_children_in_sf__c !== result.records[entry].num_children_expected__c && result.records[entry].num_children_in_sf__c !== undefined && result.records[entry].num_children_expected__c !== undefined) {
+            if (result.records[entry].num_children_in_sf__c === 0 && (result.records[entry].num_children_expected__c === null || result.records[entry].num_children_expected__c === '')) {
+                // If there is not data in num_children_expected__c for this record just ignore it
+                continue;
+            } else if (result.records[entry].num_children_in_sf__c !== result.records[entry].num_children_expected__c && result.records[entry].num_children_in_sf__c !== undefined && result.records[entry].num_children_expected__c !== undefined) {
                 console.log("Error @ sfID " + result.records[entry].Id);
                 logString += "Error @ sfID " + result.records[entry].Id + " https://eu5.salesforce.com/" + result.records[entry].Id + '\n';
                 errors += 1;
