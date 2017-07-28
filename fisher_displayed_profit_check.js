@@ -21,8 +21,8 @@ function runTest(client, startDate, endDate, mainCallback) {
      cost_harbour_fee__c, cost_oil__c, cost_other_amount__c, cost_transport__c 
      FROM Ablb_Fisher_Trip__c WHERE LastModifiedDate >= ${startDate} AND LastModifiedDate < ${endDate}`;
     client.query(query, (err, trips) => {
-        console.log(trips.totalSize + ' records were received');
-        logString += trips.totalSize + ' records were received\n';
+        console.log(trips.totalSize + ' trip records were received');
+        logString += trips.totalSize + ' trip records were received\n';
 
         if (trips.totalSize === 0) {
             logString += "No successful trips found.";
@@ -66,12 +66,12 @@ function runTest(client, startDate, endDate, mainCallback) {
                     totalCost += trip.cost_transport__c
                 }
 
-                // console.log('COST = ' + totalCost);
-                // console.log('INCOME = ' + totalIncome);
-                // console.log('DISPLAYED PROFIT = ' + trip.displayed_profit__c);
-
                 // Calculate the expected profit for trip
                 let profit = totalIncome - totalCost;
+
+                // console.log('INCOME = ' + totalIncome);
+                // console.log('DISPLAYED PROFIT = ' + trip.displayed_profit__c);
+                // console.log('CALCULATED PROFIT = ' + profit);
 
                 // If the profit is not equal to displayed profit flag error and handle all faketrips
                 if (profit !== trip.displayed_profit__c && !((trip.odk_uuid__c).includes("faketrip"))) {

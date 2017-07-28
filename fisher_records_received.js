@@ -23,8 +23,8 @@ function runTest(client, startDate, endDate, success, error) {
         if (err) {
             error(err);
         } else if (result && result.totalSize > 0) {
-            console.log(result.totalSize + " records received - Test PASSED\n");
-            logString += result.totalSize + " records received - Test PASSED\n";
+            console.log(result.totalSize + " trip records received - Test PASSED\n");
+            logString += result.totalSize + " trip records received - Test PASSED\n";
             success(logString);
         } else {
             console.log("No records received - Test FAILED \n");

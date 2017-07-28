@@ -26,8 +26,8 @@ function runTest(client, startDate, endDate, callback) {
             return callback(logString, err);
         }
 
-        console.log(result.totalSize + ' records were received');
-        logString += result.totalSize + ' records were received\n';
+        console.log(result.totalSize + ' catch records were received');
+        logString += result.totalSize + ' catch records were received\n';
 
         for (let i = 0; i < result.totalSize; i = i + 1) {
             // If price type is total batch ignore as quantity will then be irrelevant

@@ -18,8 +18,8 @@ function runTest(client, startDate, endDate, callback) {
     // Query relevant fields from postgresdb
     let query = `SELECT num_children_in_sf__c, Id, num_children_expected__c FROM Ablb_Fisher_Trip__c WHERE LastModifiedDate >= ${startDate} AND LastModifiedDate < ${endDate}`;
     client.query(query, (err, result) => {
-        console.log(result.totalSize + ' records were received');
-        logString += result.totalSize + ' records were received \n';
+        console.log(result.totalSize + ' trip records were received');
+        logString += result.totalSize + ' trip records were received \n';
 
         // For every record verify that the number in salesforce corresponds to the expected value on the record
         // if not equal flag a error at the relevant record's ID

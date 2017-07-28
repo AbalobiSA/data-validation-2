@@ -26,7 +26,7 @@ function runTest(client, startDate, endDate, callback) {
             console.log(tripUsers.totalSize + ' trip records were received');
             logString += tripUsers.totalSize + ' trip records were received\n';
 
-            query = `SELECT Username, abalobi_id__c, abalobi_usertype__c FROM User`;
+            query = `SELECT Username__c, abalobi_id__c, abalobi_usertype__c FROM Ablb_User__c`;
             client.query(query, (err, users) => {
                 console.log(users.totalSize + ' user records were retrieved');
                 logString += users.totalSize + ' user records were retrieved\n';
@@ -37,9 +37,9 @@ function runTest(client, startDate, endDate, callback) {
                     for (let j = 0 ; j < users.records.length; j = j + 1) {
                         // Check if the trip's user corresponds to correct abalobi ID and username
                         // If the main fisher ID matches any user ID and the user ID from the trip matches any Username
-                        if (users.records[j]['abalobi_id__c'] === tripUsers.records[i]['main_fisher_id__c'] && users.records[j]['Username'] === tripUsers.records[i]['user_id__c']) {
+                        if (users.records[j]['abalobi_id__c'] === tripUsers.records[i]['main_fisher_id__c'] && users.records[j]['Username__c'] === tripUsers.records[i]['user_id__c']) {
                             match = true
-                        } else if (users.records[j]['Username'] === tripUsers.records[i]['user_id__c'] && users.records[j]['abalobi_usertype__c'].includes("fisher_manager")){
+                        } else if (users.records[j]['Username__c'] === tripUsers.records[i]['user_id__c'] && users.records[j]['abalobi_usertype__c'].includes("fisher_manager")){
                             match = true;
                         }
                     }
