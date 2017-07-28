@@ -23,13 +23,13 @@ function runTest(client, startDate, endDate, callback) {
         if (err) {
             callback(logString, err);
         } else {
-            console.log(tripUsers.totalSize + ' records were received');
-            logString += tripUsers.totalSize + ' records were received\n';
+            console.log(tripUsers.totalSize + ' trip records were received');
+            logString += tripUsers.totalSize + ' trip records were received\n';
 
             query = `SELECT Username, abalobi_id__c, abalobi_usertype__c FROM User`;
             client.query(query, (err, users) => {
-                console.log(users.totalSize + ' records were received');
-                logString += users.totalSize + ' records were received\n';
+                console.log(users.totalSize + ' user records were retrieved');
+                logString += users.totalSize + ' user records were retrieved\n';
 
                 // Scan the array of total users for a match for each of the users_from trip for a match
                 for (let i = 0 ; i < tripUsers.records.length; i = i + 1) {
