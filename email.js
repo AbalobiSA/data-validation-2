@@ -3,6 +3,7 @@
  ============================================================================*/
 
 const nodemailer = require('nodemailer');
+let secrets = require('./secrets/secrets.js');
 // var fs = require("fs");
 
 /*============================================================================
@@ -10,12 +11,12 @@ const nodemailer = require('nodemailer');
  ============================================================================*/
 
 let smtpConfig = {
-    host: process.env.EMAIL_SMTP_HOST,
+    host: process.env.EMAIL_SMTP_HOST || secrets.EMAIL_SMTP_HOST,
     port: 587,
     secure: false, // use SSL
     auth: {
-        user: process.env.EMAIL_SMTP_SENDER,
-        pass: process.env.EMAIL_SMTP_PASSWORD
+        user: process.env.EMAIL_SMTP_SENDER || secrets.EMAIL_SMTP_SENDER,
+        pass: process.env.EMAIL_SMTP_PASSWORD || secrets.EMAIL_SMTP_PASSWORD
     },
     tls: {
         rejectUnauthorized:false
@@ -47,8 +48,8 @@ function send_report(body, subject, callback){
     }
 
     let mailOptions = {
-        from: process.env.EMAIL_SMTP_SENDER, // sender address
-        to: process.env.EMAIL_RECEIVER, // list of receivers
+        from: process.env.EMAIL_SMTP_SENDER || secrets.EMAIL_SMTP_SENDER, // sender address
+        to: process.env.EMAIL_RECEIVER || secrets.EMAIL_RECEIVER, // list of receivers
         subject: "Abalobi Validation Report - " + subject, // Subject line
         text: body
     };

@@ -2,12 +2,13 @@
  * Created by Carl on 2017-05-24.
  */
 let jsforce = require('jsforce');
+let secrets = require('./secrets/secrets.js');
 
 function createQuery(queryString, success, error){
     let conn = new jsforce.Connection();
 
     console.log("Salesforce: Logging in...");
-    conn.login(process.env.SALESFORCE_USERNAME, process.env.SALESFORCE_PWD, function(err, res) {
+    conn.login(process.env.SALESFORCE_USERNAME || secrets.SF_USER, process.env.SALESFORCE_PWD || secrets.SF_PASSWORD, function(err, res) {
         if (err) {
             return console.error(err);
         }
@@ -31,7 +32,7 @@ function createQuery(queryString, success, error){
 function createSearch(queryString, success, error){
     let conn = new jsforce.Connection();
 
-    conn.login(process.env.SALESFORCE_USERNAME, process.env.SALESFORCE_PWD, function(err, res) {
+    conn.login(process.env.SALESFORCE_USERNAME || secrets.SF_USER, process.env.SALESFORCE_PWD || secrets.SF_PASSWORD, function(err, res) {
         if (err) {
             return console.error(err);
         }
@@ -61,7 +62,7 @@ function createConnection() {
     return new Promise((resolve, reject) => {
 
         // console.log("Salesforce: Logging in...");
-        conn.login(process.env.SALESFORCE_USERNAME, process.env.SALESFORCE_PWD, function(err, res) {
+        conn.login(process.env.SALESFORCE_USERNAME || secrets.SF_USER, process.env.SALESFORCE_PWD || secrets.SF_PASSWORD, function(err, res) {
             if (err) {
                 reject(err);
             } else {
@@ -74,7 +75,7 @@ function createConnection() {
 
 function update(table, updateobject, success, error) {
     let conn = new jsforce.Connection();
-    conn.login(process.env.SALESFORCE_USERNAME, process.env.SALESFORCE_PWD, function(err, res) {
+    conn.login(process.env.SALESFORCE_USERNAME || secrets.SF_USER, process.env.SALESFORCE_PWD || secrets.SF_PASSWORD, function(err, res) {
         if (err) {
             error(err);
             return console.error(err);
