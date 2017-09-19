@@ -69,12 +69,13 @@ function runTest(client, startDate, endDate, mainCallback) {
                 // Calculate the expected profit for trip
                 let profit = totalIncome - totalCost;
 
+                // console.log('-----');
                 // console.log('INCOME = ' + totalIncome);
                 // console.log('DISPLAYED PROFIT = ' + trip.displayed_profit__c);
                 // console.log('CALCULATED PROFIT = ' + profit);
 
                 // If the profit is not equal to displayed profit flag error and handle all faketrips
-                if (profit !== trip.displayed_profit__c && !((trip.odk_uuid__c).includes("faketrip"))) {
+                if (Math.abs(trip.displayed_profit__c - profit) > 0.001 && !((trip.odk_uuid__c).includes("faketrip"))) {
                     console.log("Error @ sfID " + trip.Id);
                     logString += "Error @ sfID " + trip.Id + " https://eu5.salesforce.com/" + trip.Id + '\n';
 

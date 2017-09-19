@@ -2,7 +2,11 @@
  * Created by Carl on 2017-05-24.
  */
 let jsforce = require('jsforce');
-let secrets = require('./secrets/secrets.js');
+try {
+    let secrets = require('./secrets/secrets.js');
+} catch (e) {
+    let secrets = null;
+}
 
 function createQuery(queryString, success, error){
     let conn = new jsforce.Connection();

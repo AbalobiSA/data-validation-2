@@ -3,7 +3,11 @@
  ============================================================================*/
 
 const nodemailer = require('nodemailer');
-let secrets = require('./secrets/secrets.js');
+try {
+    let secrets = require('./secrets/secrets.js');
+} catch (e) {
+    let secrets = null;
+}
 // var fs = require("fs");
 
 /*============================================================================
