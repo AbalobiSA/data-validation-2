@@ -82,7 +82,7 @@ function main() {
     return salesforce.createConnection().then(client => {
 
         // Fisher tests are run where after email is send
-        fisherTests(client, log, startDate, endDate, (test_logs, errors) => {
+        return fisherTests(client, log, startDate, endDate, (test_logs, errors) => {
 
             let finishTime = new Date();
             let runtime = finishTime.getTime() - timestamp.getTime();
