@@ -4,7 +4,7 @@
 let jsforce = require('jsforce');
 let secrets;
 try {
-    secrets = require('./secrets/secrets.js');
+    secrets = require('../secrets/secrets.js');
 } catch (e) {
     console.log("email: unable to require secrets!", e);
     secrets = null;

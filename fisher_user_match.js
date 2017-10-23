@@ -5,7 +5,6 @@
  * @param client
  * @param startDate
  * @param endDate
- * @param callback
  */
 function runTest(client, startDate, endDate) {
 
