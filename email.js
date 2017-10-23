@@ -3,10 +3,12 @@
  ============================================================================*/
 
 const nodemailer = require('nodemailer');
+let secrets;
 try {
-    let secrets = require('./secrets/secrets.js');
+    secrets = require('./secrets/secrets.js');
 } catch (e) {
-    let secrets = null;
+    console.log("email: unable to require secrets!", e);
+    secrets = null;
 }
 // var fs = require("fs");
 
@@ -37,13 +39,13 @@ function send_report(body, subject, callback){
 
     let transporter;
 
-    if (process.env.USE_GMAIL_ACCOUNT === true){
+    if ((process.env.USE_GMAIL_ACCOUNT || secrets.USE_GMAIL_ACCOUNT) === true){
         console.log("USING GMAIL ACCOUNT!");
         transporter = nodemailer.createTransport({
             service: 'gmail',
             auth: {
-                user: process.env.EMAIL_SENDER_USER,
-                pass: process.env.EMAIL_SENDER_PASS
+                user: process.env.EMAIL_SENDER_USER || secrets.EMAIL_SENDER_USER,
+                pass: process.env.EMAIL_SENDER_PASS || secrets.EMAIL_SENDER_PASS
             }
         });
     } else{

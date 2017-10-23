@@ -67,6 +67,9 @@ function main() {
         startDate = startDate.toISOString();
         endDate = endDate.toISOString();
 
+        console.log("debug: start date: " + startDate);
+        console.log("debug: end date: " + endDate);
+
         console.log("No Date Range Specified - Defaulting to the last 24h.\nRunning Tests for records between " + startDate + " and " + endDate + " (time in +0:00 UTC)\n");
         log += "No Date Range Specified - Defaulting to the last 24h.\nRunning Tests for records between " + startDate + " and " + endDate + ' (time in +0:00 UTC)\n\n'
     }
@@ -128,52 +131,91 @@ function main() {
  * @param callback
  */
 function fisherTests(client, log, startDate, endDate, callback) {
+
+    // Setup globals that we'll use at the end
+    let returned_logs = "";
+    let returned_errors = "";
+
     console.log(dashline + "Running fisher records received...");
 
-    FISHER_RECORDS_RECEIVED.runTest(client, startDate, endDate, (returnedText) => {
-        testsRun += 1;
-        returnedText += dashline;
-        console.log(dashline + "Running fisher user match...");
+    FISHER_RECORDS_RECEIVED.runTest(client, startDate, endDate)
+        .then(returnedText => {
+            testsRun += 1;
+            returnedText += dashline;
+            returned_logs += returnedText;
 
-        FISHER_USER_MATCH.runTest(client, startDate, endDate, (returnedText_2, errors_1) => {
+            console.log(dashline + "Running fisher user match...");
+            return FISHER_USER_MATCH.runTest(client, startDate, endDate);
+        })
+        .then(result => {
+
+            let returnedText_2 = result[0];
+            let errors_1 = result[1];
+
             testsRun += 1;
             returnedText_2 += dashline;
             testsFailed = errors_1 !== 0 ? testsFailed + 1 : testsFailed;
 
+            returned_logs += returnedText_2;
+            returned_errors += errors_1;
+
+
             console.log(dashline + "\nRunning fisher children match...");
+            return FISHER_CHILDREN_MATCH.runTest(client, startDate, endDate);
+        })
+        .then(result => {
 
-            FISHER_CHILDREN_MATCH.runTest(client, startDate, endDate, (returnedText_3, errors_2) => {
-                testsRun += 1;
-                returnedText_3 += dashline;
-                testsFailed = errors_2 !== 0 ? testsFailed + 1 : testsFailed;
+            let returnedText_3 = result[0];
+            let errors_2 = result[1];
 
-                console.log(dashline + "\nRunning displayed profit match...");
+            testsRun += 1;
+            returnedText_3 += dashline;
+            testsFailed = errors_2 !== 0 ? testsFailed + 1 : testsFailed;
 
-                FISHER_DISPLAYED_PROFIT.runTest(client, startDate, endDate, (returnedText_4, errors_3) => {
-                    testsRun += 1;
-                    returnedText_4 += dashline;
-                    testsFailed = errors_3 !== 0 ? testsFailed + 1 : testsFailed;
+            returned_logs += returnedText_3;
+            returned_errors += errors_2;
 
-                    console.log(dashline + "\nRunning quantity check match...");
+            console.log(dashline + "\nRunning displayed profit match...");
+            return FISHER_DISPLAYED_PROFIT.runTest(client, startDate, endDate);
+        })
+        .then(result => {
 
-                    CATCH_QUANTITY_CHECK.runTest(client, startDate, endDate, (returnedText_5, errors_4) => {
-                        testsRun += 1;
-                        returnedText_5 += dashline;
-                        testsFailed = errors_4 !== 0 ? testsFailed + 1 : testsFailed;
+            let returnedText_4 = result[0];
+            let errors_3 = result[1];
 
-                        callback(returnedText + returnedText_2 + returnedText_3 + returnedText_4 + returnedText_5, errors_1 + errors_2 + errors_3 + errors_4)
-                    });
-                });
-            });
+            testsRun += 1;
+            returnedText_4 += dashline;
+            testsFailed = errors_3 !== 0 ? testsFailed + 1 : testsFailed;
+
+            returned_logs += returnedText_4;
+            returned_errors += errors_3;
+
+            console.log(dashline + "\nRunning quantity check match...");
+            return CATCH_QUANTITY_CHECK.runTest(client, startDate, endDate);
+        })
+        .then(result => {
+
+            let returnedText_5 = result[0];
+            let errors_4 = result[1];
+
+            testsRun += 1;
+            returnedText_5 += dashline;
+            testsFailed = errors_4 !== 0 ? testsFailed + 1 : testsFailed;
+
+            returned_logs += returnedText_5;
+            returned_errors += errors_4;
+
+            callback(returned_logs,
+                returned_errors)
+        })
+        .catch(error => {
+            totalErrors += 1;
+            testsRun += 1;
+            testsFailed += 1;
+
+            console.log(STR_NO_RECORDS_RECEIVED);
+            callback(STR_NO_RECORDS_RECEIVED)
         });
-    }, () => {
-        totalErrors += 1;
-        testsRun += 1;
-        testsFailed += 1;
-
-        console.log(STR_NO_RECORDS_RECEIVED);
-        callback(STR_NO_RECORDS_RECEIVED)
-    });
 }
 
 /**

@@ -2,10 +2,12 @@
  * Created by Carl on 2017-05-24.
  */
 let jsforce = require('jsforce');
+let secrets;
 try {
-    let secrets = require('./secrets/secrets.js');
+    secrets = require('./secrets/secrets.js');
 } catch (e) {
-    let secrets = null;
+    console.log("email: unable to require secrets!", e);
+    secrets = null;
 }
 
 function createQuery(queryString, success, error){
