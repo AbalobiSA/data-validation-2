@@ -19,14 +19,16 @@ let testsRun = 0;
 let testsFailed = 0;
 let dashline = "-------------------------------------------------\n\n";
 
-if (INSTA_RUN === true) {
-    main();
-}
+// if (INSTA_RUN === true) {
+//     main();
+// }
 
 /**
  * Run the scripts
  */
 function main() {
+
+
 
     // Reset values
     totalErrors = 0;
@@ -77,7 +79,7 @@ function main() {
     /**
      * Create a connection to Salesforce and start running the checks
      */
-    salesforce.createConnection().then(client => {
+    return salesforce.createConnection().then(client => {
 
         // Fisher tests are run where after email is send
         fisherTests(client, log, startDate, endDate, (test_logs, errors) => {
@@ -114,10 +116,13 @@ function main() {
             email.send_report(log, jobSubject, () => {
                 console.log('Report sent ;)');
             });
+
+            return Promise.resolve("data validation: successfully run")
         });
     }).catch(err => {
         console.log(err);
         console.log('Could not connect to Salesforce. Exiting...');
+        return Promise.reject(err)
     });
 }
 
@@ -240,3 +245,7 @@ function monitorTests(client, log, startDate, endDate, callback) {
         callback(returnedText + "No Further Monitor Tests Run\n\n" + dashline)
     });
 }
+
+module.exports = {
+    runTests: main
+};
