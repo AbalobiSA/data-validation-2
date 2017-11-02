@@ -23,7 +23,7 @@ function runTest(client, startDate, endDate) {
         let query = `SELECT Id FROM Ablb_Fisher_Trip__c WHERE LastModifiedDate >= ${startDate} AND LastModifiedDate < ${endDate}`;
         client.query(query, (err, result) => {
             if (err) {
-                error(err);
+                // error(err);
                 reject(err);
             } else if (result && result.totalSize > 0) {
                 console.log(result.totalSize + " trip records received - Test PASSED\n");

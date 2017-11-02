@@ -42,7 +42,7 @@ module.exports = {
     else {
       console.log("Not a Weekday Monitor - Test Not Run")
       LogString += "Not a Weekday Monitor - Test Not Run\n\n"
-      error(Logstring);
+      error(LogString);
     }
   }
 }

@@ -78,5 +78,5 @@ function runTest(client, startDate, endDate) {
 }
 
 module.exports = {
-    runTest: runTest
+    runTest
 };
