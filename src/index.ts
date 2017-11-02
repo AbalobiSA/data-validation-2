@@ -23,7 +23,7 @@ let dashline: string = "-------------------------------------------------\n\n";
 
 let GLOBAL_LOGFILE: Logfile;
 
-main();
+// main();
 /**
  * Run the scripts
  */
