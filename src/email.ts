@@ -7,9 +7,9 @@ let secrets;
 try {
     secrets = require('../secrets/secrets.js');
 } catch (e) {
-    console.log("email: unable to require secrets!", ex);
+    console.log("email: unable to require secrets!", e);
     try {
-        secrets = require('../../secrets/secrets.js');
+        secrets = require('../../../secrets/secrets.js');
     } catch (ex) {
         console.log("email: still can't require secrets! I will now exit.");
         process.exit(0);
