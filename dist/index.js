@@ -17,7 +17,7 @@ const INSTA_RUN = true;
 // let testsFailed: number = 0;
 let dashline = "-------------------------------------------------\n\n";
 let GLOBAL_LOGFILE;
-main();
+// main();
 /**
  * Run the scripts
  */
