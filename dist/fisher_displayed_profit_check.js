@@ -7,7 +7,6 @@ let async = require('async');
  * @param client
  * @param startDate
  * @param endDate
- * @param mainCallback
  */
 const runTest = (client, startDate, endDate) => {
     return new Promise((resolve, reject) => {

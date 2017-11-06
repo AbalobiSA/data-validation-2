@@ -1,5 +1,4 @@
 "use strict";
-Object.defineProperty(exports, "__esModule", { value: true });
 /**
  * Function to run second check of validation.
  * for this check every fisher_trip record and validate that the amount child records in salesforce
@@ -7,8 +6,8 @@ Object.defineProperty(exports, "__esModule", { value: true });
  * @param client
  * @param startDate
  * @param endDate
- * @param callback
  */
+Object.defineProperty(exports, "__esModule", { value: true });
 const runTest = (client, startDate, endDate) => {
     return new Promise((resolve, reject) => {
         let errors = 0;

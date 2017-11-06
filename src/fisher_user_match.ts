@@ -6,6 +6,7 @@
  * @param startDate
  * @param endDate
  */
+
 const runTest = (client, startDate, endDate) => {
 
     return new Promise((resolve, reject) => {
@@ -75,6 +76,6 @@ const runTest = (client, startDate, endDate) => {
     })
 
 
-}
+};
 
 export default runTest;

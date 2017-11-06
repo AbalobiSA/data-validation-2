@@ -1,5 +1,4 @@
 "use strict";
-Object.defineProperty(exports, "__esModule", { value: true });
 /**
  * Test that run and evaluates if any trip records were receieved during the specified time range.
  * if any records are recieved the test is passed and other tests are executed. If no records are recieved
@@ -8,6 +7,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
  * @param startDate
  * @param endDate
  */
+Object.defineProperty(exports, "__esModule", { value: true });
 const runTest = (client, startDate, endDate) => {
     return new Promise((resolve, reject) => {
         // Initialize logging for every console.log

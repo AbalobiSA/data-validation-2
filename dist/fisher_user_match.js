@@ -1,5 +1,4 @@
 "use strict";
-Object.defineProperty(exports, "__esModule", { value: true });
 /**
  * Function to run first check of validation
  * this check is to guarantee that the fisher who has submitted data from a trip matches up with the username provided on the form.
@@ -8,6 +7,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
  * @param startDate
  * @param endDate
  */
+Object.defineProperty(exports, "__esModule", { value: true });
 const runTest = (client, startDate, endDate) => {
     return new Promise((resolve, reject) => {
         let errors = 0;
