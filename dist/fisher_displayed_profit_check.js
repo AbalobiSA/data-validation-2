@@ -1,5 +1,4 @@
 "use strict";
-Object.defineProperty(exports, "__esModule", { value: true });
 let async = require('async');
 /**
  * Test that calculates the expected profit from a trip by adding expenses and totaling income from catches
@@ -123,6 +122,8 @@ function income(eachCatch) {
     }
     return total_income;
 }
-exports.default = runTest;
+module.exports = {
+    runTest
+};
 
 //# sourceMappingURL=fisher_displayed_profit_check.js.map

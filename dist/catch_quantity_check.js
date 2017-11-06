@@ -7,7 +7,7 @@
  * @param endDate
  * @param callback
  */
-function runTest(client, startDate, endDate) {
+const runTest = (client, startDate, endDate) => {
     return new Promise((resolve, reject) => {
         let errors = 0;
         let logString = "";
@@ -49,7 +49,7 @@ function runTest(client, startDate, endDate) {
             }
         });
     });
-}
+};
 /**
  * Check that a quantity of a certain catch adds up
  *

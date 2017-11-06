@@ -7,7 +7,6 @@
  * @param startDate
  * @param endDate
  */
-Object.defineProperty(exports, "__esModule", { value: true });
 const runTest = (client, startDate, endDate) => {
     return new Promise((resolve, reject) => {
         // Initialize logging for every console.log
@@ -35,6 +34,8 @@ const runTest = (client, startDate, endDate) => {
         });
     });
 };
-exports.default = runTest;
+module.exports = {
+    runTest
+};
 
 //# sourceMappingURL=fisher_records_received.js.map

@@ -7,7 +7,6 @@
  * @param startDate
  * @param endDate
  */
-Object.defineProperty(exports, "__esModule", { value: true });
 const runTest = (client, startDate, endDate) => {
     return new Promise((resolve, reject) => {
         let errors = 0;
@@ -70,6 +69,8 @@ const runTest = (client, startDate, endDate) => {
         });
     });
 };
-exports.default = runTest;
+module.exports = {
+    runTest
+};
 
 //# sourceMappingURL=fisher_user_match.js.map
