@@ -37,3 +37,5 @@ module.exports = {
         }
     }
 };
+
+//# sourceMappingURL=monitor_records_received.js.map

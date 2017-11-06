@@ -40,3 +40,5 @@ class Logfile {
     }
 }
 exports.Logfile = Logfile;
+
+//# sourceMappingURL=Logfile.js.map

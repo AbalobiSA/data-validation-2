@@ -6,7 +6,7 @@
  * @param startDate
  * @param endDate
  */
-function runTest(client, startDate, endDate) {
+export default runTest = (client, startDate, endDate) => {
 
     return new Promise((resolve, reject) => {
         let errors = 0;
@@ -76,7 +76,3 @@ function runTest(client, startDate, endDate) {
 
 
 }
-
-module.exports = {
-    runTest
-};

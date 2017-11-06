@@ -1,4 +1,5 @@
 "use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
 let async = require('async');
 /**
  * Test that calculates the expected profit from a trip by adding expenses and totaling income from catches
@@ -8,7 +9,7 @@ let async = require('async');
  * @param endDate
  * @param mainCallback
  */
-function runTest(client, startDate, endDate) {
+exports.default = runTest = (client, startDate, endDate) => {
     return new Promise((resolve, reject) => {
         let errors = 0;
         let logString = "";
@@ -83,7 +84,7 @@ function runTest(client, startDate, endDate) {
             });
         });
     });
-}
+};
 /**
  * Calculate total income of a catch handling different scenarios for price type
  * @param eachCatch
@@ -123,6 +124,5 @@ function income(eachCatch) {
     }
     return total_income;
 }
-module.exports = {
-    runTest: runTest
-};
+
+//# sourceMappingURL=fisher_displayed_profit_check.js.map

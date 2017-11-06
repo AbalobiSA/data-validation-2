@@ -8,7 +8,7 @@ let async = require('async');
  * @param endDate
  * @param mainCallback
  */
-function runTest(client, startDate, endDate) {
+export default runTest = (client, startDate, endDate) => {
 
     return new Promise((resolve, reject) => {
         let errors = 0;
@@ -151,7 +151,3 @@ function income(eachCatch) {
 
     return total_income;
 }
-
-module.exports = {
-    runTest: runTest
-};

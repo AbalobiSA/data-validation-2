@@ -1,4 +1,5 @@
 "use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
 /**
  * Function to run second check of validation.
  * for this check every fisher_trip record and validate that the amount child records in salesforce
@@ -8,7 +9,7 @@
  * @param endDate
  * @param callback
  */
-function runTest(client, startDate, endDate) {
+exports.default = runTest = (client, startDate, endDate) => {
     return new Promise((resolve, reject) => {
         let errors = 0;
         let logString = "";
@@ -51,7 +52,6 @@ function runTest(client, startDate, endDate) {
             }
         });
     });
-}
-module.exports = {
-    runTest: runTest
 };
+
+//# sourceMappingURL=fisher_children_match.js.map

@@ -1,11 +1,11 @@
 {
   "name": "ablb-data-validation-2",
-  "version": "2.1.0",
+  "version": "2.2.1",
   "description": "",
   "main": "dist/index.js",
   "scripts": {
     "start": "npm run build:live",
-    "build" : "gulp",
+    "build": "gulp",
     "build:live": "nodemon --exec ./node_modules/.bin/ts-node -- ./index.ts",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
@@ -14,8 +14,10 @@
   "dependencies": {
     "@types/node": "^8.0.47",
     "ablb-salesforce": "git+https://git@github.com/AbalobiSA/ablb-salesforce.git",
+    "ablb-salesforce-2": "https://github.com/AbalobiSA/ablb-salesforce-2.git",
     "async": "^2.5.0",
     "gulp": "^3.9.1",
+    "gulp-sourcemaps": "^2.6.1",
     "gulp-typescript": "^3.2.3",
     "jsforce": "^1.8.0",
     "nodemailer": "^3.1.7",

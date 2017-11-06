@@ -8,7 +8,7 @@ try {
     secrets = require('../secrets/secrets.js');
 }
 catch (e) {
-    console.log("email: unable to require secrets!", e);
+    // console.log("email: unable to require secrets!", e);
     try {
         secrets = require('../../../secrets/secrets.js');
     }
@@ -78,3 +78,5 @@ function send_report(body, subject, callback) {
 module.exports = {
     send_report: send_report
 };
+
+//# sourceMappingURL=email.js.map

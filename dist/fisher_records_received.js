@@ -1,4 +1,5 @@
 "use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
 /**
  * Test that run and evaluates if any trip records were receieved during the specified time range.
  * if any records are recieved the test is passed and other tests are executed. If no records are recieved
@@ -7,7 +8,7 @@
  * @param startDate
  * @param endDate
  */
-function runTest(client, startDate, endDate) {
+exports.default = runTest = (client, startDate, endDate) => {
     return new Promise((resolve, reject) => {
         // Initialize logging for every console.log
         let logString = "";
@@ -33,7 +34,6 @@ function runTest(client, startDate, endDate) {
             }
         });
     });
-}
-module.exports = {
-    runTest: runTest
 };
+
+//# sourceMappingURL=fisher_records_received.js.map

@@ -104,3 +104,5 @@ function checkQuantity(eachCatch) {
 module.exports = {
     runTest: runTest
 };
+
+//# sourceMappingURL=catch_quantity_check.js.map
