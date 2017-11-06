@@ -58,4 +58,6 @@ const runTest = (client, startDate, endDate) => {
 };
 
 
-export default runTest;
+module.exports = {
+    runTest
+};

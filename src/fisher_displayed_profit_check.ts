@@ -153,4 +153,6 @@ function income(eachCatch) {
     return total_income;
 }
 
-export default runTest;
+module.exports = {
+    runTest
+};
