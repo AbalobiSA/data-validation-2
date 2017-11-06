@@ -2,7 +2,6 @@
 import {Logfile} from "./Logfile";
 import * as fs from 'fs';
 import * as Salesforce from 'ablb-salesforce-2';
-
 const secrets = require("../../../secrets/secrets.js");
 const salesforce = new Salesforce(secrets.SF_USER, secrets.SF_PASSWORD);
 
@@ -73,7 +72,7 @@ const main = () => {
         .then(conn => {
             client = conn;
             // Fisher tests are run where after email is send
-            fisherTests(client, startDate, endDate)
+            return fisherTests(client, startDate, endDate)
         })
         .then(success => {
             let finishTime = new Date();
@@ -96,6 +95,8 @@ const main = () => {
             if (GLOBAL_LOGFILE.getStatus() === "NO_RECORDS_RECEIVED") {
                 GLOBAL_LOGFILE.email_subject += " (NO TRIPS RECEIVED)"
             }
+
+            console.log("ALL TESTS SHOULD BE COMPLETED NOW.");
 
             email.send_report(GLOBAL_LOGFILE.getLog(), GLOBAL_LOGFILE.email_subject, () => {
                 console.log('Report sent ;)');
@@ -183,7 +184,7 @@ const createLogEntry= (log: Logfile, result: any) => {
 //     });
 // }
 
-main();
+// main();
 
 module.exports = {
     runTests: main

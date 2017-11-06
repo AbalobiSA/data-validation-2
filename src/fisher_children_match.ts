@@ -8,7 +8,7 @@
  */
 
 
-const runTest = (client, startDate, endDate) => {
+let runTest = (client, startDate, endDate) => {
     return new Promise((resolve, reject) => {
         let errors = 0;
         let logString = "";
