@@ -9,7 +9,7 @@ let async = require('async');
  * @param endDate
  * @param mainCallback
  */
-exports.default = runTest = (client, startDate, endDate) => {
+const runTest = (client, startDate, endDate) => {
     return new Promise((resolve, reject) => {
         let errors = 0;
         let logString = "";
@@ -124,5 +124,6 @@ function income(eachCatch) {
     }
     return total_income;
 }
+exports.default = runTest;
 
 //# sourceMappingURL=fisher_displayed_profit_check.js.map

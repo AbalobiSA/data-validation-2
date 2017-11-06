@@ -7,7 +7,7 @@
  * @param endDate
  * @param callback
  */
-export default runTest = (client, startDate, endDate) => {
+const runTest = (client, startDate, endDate) => {
     return new Promise((resolve, reject) => {
         let errors = 0;
         let logString = "";
@@ -57,3 +57,6 @@ export default runTest = (client, startDate, endDate) => {
 
 
 }
+
+
+export default runTest;

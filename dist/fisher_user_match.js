@@ -8,7 +8,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
  * @param startDate
  * @param endDate
  */
-exports.default = runTest = (client, startDate, endDate) => {
+const runTest = (client, startDate, endDate) => {
     return new Promise((resolve, reject) => {
         let errors = 0;
         // letiable that stores all logging info for individual job
@@ -70,5 +70,6 @@ exports.default = runTest = (client, startDate, endDate) => {
         });
     });
 };
+exports.default = runTest;
 
 //# sourceMappingURL=fisher_user_match.js.map

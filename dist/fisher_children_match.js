@@ -9,7 +9,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
  * @param endDate
  * @param callback
  */
-exports.default = runTest = (client, startDate, endDate) => {
+const runTest = (client, startDate, endDate) => {
     return new Promise((resolve, reject) => {
         let errors = 0;
         let logString = "";
@@ -53,5 +53,6 @@ exports.default = runTest = (client, startDate, endDate) => {
         });
     });
 };
+exports.default = runTest;
 
 //# sourceMappingURL=fisher_children_match.js.map
