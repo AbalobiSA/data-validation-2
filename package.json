@@ -1,6 +1,6 @@
 {
   "name": "ablb-data-validation-2",
-  "version": "2.5.2",
+  "version": "2.5.5",
   "description": "",
   "main": "dist/index.js",
   "scripts": {
@@ -17,6 +17,7 @@
     "ablb-salesforce-2": "https://github.com/AbalobiSA/ablb-salesforce-2.git",
     "async": "^2.5.0",
     "gulp": "^3.9.1",
+    "gulp-bump": "^2.8.0",
     "gulp-sourcemaps": "^2.6.1",
     "gulp-typescript": "^3.2.3",
     "jsforce": "^1.8.0",

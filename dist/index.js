@@ -55,7 +55,7 @@ const main = () => {
         .then(conn => {
         client = conn;
         // Fisher tests are run where after email is send
-        fisherTests(client, startDate, endDate);
+        return fisherTests(client, startDate, endDate);
     })
         .then(success => {
         let finishTime = new Date();
@@ -76,6 +76,7 @@ const main = () => {
         if (GLOBAL_LOGFILE.getStatus() === "NO_RECORDS_RECEIVED") {
             GLOBAL_LOGFILE.email_subject += " (NO TRIPS RECEIVED)";
         }
+        console.log("ALL TESTS SHOULD BE COMPLETED NOW.");
         email.send_report(GLOBAL_LOGFILE.getLog(), GLOBAL_LOGFILE.email_subject, () => {
             console.log('Report sent ;)');
         });
@@ -154,7 +155,7 @@ const createLogEntry = (log, result) => {
 //         callback(returnedText + "No Further Monitor Tests Run\n\n" + dashline)
 //     });
 // }
-main();
+// main();
 module.exports = {
     runTests: main
 };
