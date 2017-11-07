@@ -3,8 +3,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 // Load all the required packages/modules
 const Logfile_1 = require("./Logfile");
 const Salesforce = require("ablb-salesforce-2");
-const secrets = require("../../../secrets/secrets.js");
-const salesforce = new Salesforce(secrets.SF_USER, secrets.SF_PASSWORD);
+let salesforce;
 const FISHER_USER_MATCH = require('./fisher_user_match');
 const FISHER_CHILDREN_MATCH = require('./fisher_children_match');
 const FISHER_RECORDS_RECEIVED = require('./fisher_records_received');
@@ -16,7 +15,9 @@ const STR_NO_RECORDS_RECEIVED = "No Records Received - No Further Fisher Tests R
 const dashline = "-------------------------------------------------\n\n";
 const INSTA_RUN = true;
 let GLOBAL_LOGFILE;
-const main = () => {
+const main = (secrets) => {
+    // Initialize salesforce
+    salesforce = new Salesforce(secrets.SF_USER, secrets.SF_PASSWORD);
     // Reset values in logfile
     GLOBAL_LOGFILE = new Logfile_1.Logfile();
     // Create a timestamp in UTC and create master log for tests

@@ -2,8 +2,7 @@
 import {Logfile} from "./Logfile";
 import * as fs from 'fs';
 import * as Salesforce from 'ablb-salesforce-2';
-const secrets = require("../../../secrets/secrets.js");
-const salesforce = new Salesforce(secrets.SF_USER, secrets.SF_PASSWORD);
+let salesforce: any;
 
 
 const FISHER_USER_MATCH = require('./fisher_user_match');
@@ -21,9 +20,11 @@ const INSTA_RUN = true;
 
 let GLOBAL_LOGFILE: Logfile;
 
+const main = (secrets: any) => {
+    // Initialize salesforce
 
+    salesforce = new Salesforce(secrets.SF_USER, secrets.SF_PASSWORD);
 
-const main = () => {
     // Reset values in logfile
     GLOBAL_LOGFILE = new Logfile();
 
