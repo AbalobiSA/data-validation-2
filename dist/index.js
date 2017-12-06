@@ -101,6 +101,9 @@ const fisherTests = (client, startDate, endDate) => {
     console.log(dashline + "Running fisher records received...");
     return FISHER_RECORDS_RECEIVED.runTest(client, startDate, endDate)
         .then(returnedText => {
+        if (returnedText.indexOf('No records received') !== -1) {
+            GLOBAL_LOGFILE.setStatus('NO_RECORDS_RECEIVED');
+        }
         GLOBAL_LOGFILE.incrementTestsRun();
         GLOBAL_LOGFILE.addLog(returnedText += dashline);
         console.log(dashline + "Running fisher user match...");

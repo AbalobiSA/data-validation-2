@@ -125,6 +125,10 @@ const fisherTests = (client, startDate, endDate) => {
 
     return FISHER_RECORDS_RECEIVED.runTest(client, startDate, endDate)
         .then(returnedText => {
+            if (returnedText.indexOf('No records received') !== -1) {
+                GLOBAL_LOGFILE.setStatus('NO_RECORDS_RECEIVED');
+            }
+
             GLOBAL_LOGFILE.incrementTestsRun();
             GLOBAL_LOGFILE.addLog(returnedText += dashline);
 
