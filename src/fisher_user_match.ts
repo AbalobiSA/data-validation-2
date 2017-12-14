@@ -49,11 +49,11 @@ const runTest = (client, startDate, endDate) => {
                         if (match === false) {
                             console.log("Error:  [Username]: " + tripUsers.records[i].user_id__c + " [main_fisher_id]: "
                                 + tripUsers.records[i].main_fisher_id__c + "        @ sfID " + tripUsers.records[i].Id
-                                + " https://eu5.salesforce.com/" + tripUsers.records[i].Id + '\n' +
+                                + " https://eu14.salesforce.com/" + tripUsers.records[i].Id + '\n' +
                                 "\n");
                             logString += "Error:  [Username]: " + tripUsers.records[i].user_id__c + " [main_fisher_id]: "
                                 + tripUsers.records[i].main_fisher_id__c + "        @ sfID " + tripUsers.records[i].Id
-                                + " https://eu5.salesforce.com/" + tripUsers.records[i].Id + '\n' +
+                                + " https://eu14.salesforce.com/" + tripUsers.records[i].Id + '\n' +
                                 "\n";
 
                             errors += 1;
