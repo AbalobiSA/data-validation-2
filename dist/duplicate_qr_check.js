@@ -14,8 +14,20 @@ let runTest = (client, startDate, endDate) => {
         logString += "Test 6: Duplicate QR Quanity Check: \n";
 
         let addError = (qr, entryId, duplicateId, duplicatePairs) => {
-            let errorString = "Error: [QR]: " + qr + "\n[ID 1]: " + entryId + "     https://eu5.salesforce.com/" + entryId + 
-            "\n[ID 2]: " + duplicateId + "     https://eu5.salesforce.com/" + duplicateId + '\n\n';
+            let errorString = "Error: [QR]: " + qr + "\n[ID 1]: " + entryId + "     https://eu5.salesforce.com/" + entryId +
+                "\n[ID 2]: " + duplicateId + "     https://eu5.salesforce.com/" + duplicateId + '\n\n';
+
+            for (let pair of duplicatePairs) {
+                //If the pair is already logged as an error, return
+                if (pair.entryId === entryId && pair.duplicateId === duplicateId) return;
+                if (pair.entryId === duplicateId && pair.duplicateId === entryId) return;
+            }
+
+            //If the pair is not found, create it, and add it to the list
+            duplicatePairs.push({
+                entryId: entryId,
+                duplicateId: duplicateId
+            });
 
             console.log(errorString);
             logString += errorString;
@@ -32,7 +44,7 @@ let runTest = (client, startDate, endDate) => {
             }
             console.log(result.totalSize + ' catch records were received');
             logString += result.totalSize + ' catch records were received\n';
-            
+
             query = `SELECT Id, code_single_batch__c, code_multiple_catch_tags__c
             FROM Ablb_Batch_Tags__c WHERE LastModifiedDate >= ${startDate} AND LastModifiedDate < ${endDate}`
 
@@ -40,6 +52,8 @@ let runTest = (client, startDate, endDate) => {
                 if (err) {
                     return resolve([logString, err]);
                 }
+
+                let duplicatePairs = [];
 
                 for (let i = 0; i < result.records.length; i++) {
 
@@ -54,7 +68,7 @@ let runTest = (client, startDate, endDate) => {
                         //Skip check if they are the same entry or the check entry doesn't have a qr tag
                         if (i === j || !result.records[j].catch_qr_tag__c) continue;
                         let checkEntry = result.records[j];
-                        if (entry.catch_qr_tag__c === checkEntry.catch_qr_tag__c) addError(qr_code, entry.Id, checkEntry.Id);
+                        if (entry.catch_qr_tag__c === checkEntry.catch_qr_tag__c) addError(qr_code, entry.Id, checkEntry.Id, duplicatePairs);
                     }
 
                     //Check single batch
@@ -62,7 +76,7 @@ let runTest = (client, startDate, endDate) => {
                         let record = batchResult.records[j];
                         //Skip if the record doesn't have a tag
                         if (entry.Id === record.Id || !record.code_single_batch__c) continue;
-                        if (qr_code === record.code_single_batch__c) addError(qr_code, entry.Id, record.Id);
+                        if (qr_code === record.code_single_batch__c) addError(qr_code, entry.Id, record.Id, duplicatePairs);
                     }
 
                     //Check multiple catch tags
@@ -73,10 +87,10 @@ let runTest = (client, startDate, endDate) => {
                         //Skip if the record doesn't have multiple catch tags
                         if (entry.Id === record.Id || !record.code_multiple_catch_tags__c) continue;
                         let catchTags = record.code_multiple_catch_tags__c.split(' ');
-                        
+
                         for (let k = 0; k < catchTags.length; k++) {
                             if (qr_code === catchTags[k]) occurences++;
-                            if (occurences > 1 ) addError(qr_code, entry.Id, record.Id);
+                            if (occurences > 1) addError(qr_code, entry.Id, record.Id, duplicatePairs);
                         }
                     }
                 }
