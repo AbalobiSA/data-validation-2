@@ -13,11 +13,12 @@ let runTest = (client, startDate, endDate) => {
         console.log("Test 6: Duplicate QR Check: ");
         logString += "Test 6: Duplicate QR Quanity Check: \n";
 
-        let addError = (qr, entryId, duplicateId) => {
-            console.log("Error:\t[QR]: " + qr + "\t[ID 1]: " + entryId + "\t[ID 2]: " + duplicateId + "\t\t@sfID " 
-                        + entryId + " https://eu5.salesforce.com/" + entryId + '\n');
-            logString += "Error:\t[QR]: " + qr + "\t[ID 1]: " + entryId + "\t[ID 2]: " + duplicateId + "\t\t@sfID " 
-                        + entryId + " https://eu5.salesforce.com/" + entryId + '\n';
+        let addError = (qr, entryId, duplicateId, duplicatePairs) => {
+            let errorString = "Error: [QR]: " + qr + "\n[ID 1]: " + entryId + "     https://eu5.salesforce.com/" + entryId + 
+            "\n[ID 2]: " + duplicateId + "     https://eu5.salesforce.com/" + duplicateId + '\n\n';
+
+            console.log(errorString);
+            logString += errorString;
             errors += 1;
         }
 
@@ -31,7 +32,7 @@ let runTest = (client, startDate, endDate) => {
             }
             console.log(result.totalSize + ' catch records were received');
             logString += result.totalSize + ' catch records were received\n';
-
+            
             query = `SELECT Id, code_single_batch__c, code_multiple_catch_tags__c
             FROM Ablb_Batch_Tags__c WHERE LastModifiedDate >= ${startDate} AND LastModifiedDate < ${endDate}`
 
@@ -67,12 +68,15 @@ let runTest = (client, startDate, endDate) => {
                     //Check multiple catch tags
                     for (let j = 0; j < batchResult.records.length; j++) {
                         let record = batchResult.records[j];
+                        let occurences = 0;
+
                         //Skip if the record doesn't have multiple catch tags
                         if (entry.Id === record.Id || !record.code_multiple_catch_tags__c) continue;
                         let catchTags = record.code_multiple_catch_tags__c.split(' ');
                         
                         for (let k = 0; k < catchTags.length; k++) {
-                            if (qr_code === catchTags[k]) addError(qr_code, entry.Id, record.Id);
+                            if (qr_code === catchTags[k]) occurences++;
+                            if (occurences > 1 ) addError(qr_code, entry.Id, record.Id);
                         }
                     }
                 }
