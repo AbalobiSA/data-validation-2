@@ -9,6 +9,7 @@ const FISHER_CHILDREN_MATCH = require('./fisher_children_match');
 const FISHER_RECORDS_RECEIVED = require('./fisher_records_received');
 const FISHER_DISPLAYED_PROFIT = require('./fisher_displayed_profit_check');
 const CATCH_QUANTITY_CHECK = require('./catch_quantity_check');
+const DUPLICATE_QR_CHECK = require('./duplicate_qr_check');
 // import * as MONITOR_RECORDS_RECEIVED from './monitor_records_received';
 const email = require('./email');
 const STR_NO_RECORDS_RECEIVED = "No Records Received - No Further Fisher Tests Run";
@@ -123,6 +124,11 @@ const fisherTests = (client, startDate, endDate) => {
         createLogEntry(GLOBAL_LOGFILE, result);
         console.log(dashline + "\nRunning quantity check match...");
         return CATCH_QUANTITY_CHECK.runTest(client, startDate, endDate);
+    })
+        .then(result => {
+        createLogEntry(GLOBAL_LOGFILE, result);
+        console.log(dashline + "\nRunning duplicate qr check match...");
+        return DUPLICATE_QR_CHECK.runTest(client, startDate, endDate);
     })
         .then(result => {
         createLogEntry(GLOBAL_LOGFILE, result);
